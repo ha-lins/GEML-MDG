@@ -36,12 +36,30 @@ wget https://drive.google.com/file/d/1sZzb3Nzm_Z37lNCfgusJscFuiyhUON5j/view?usp=
 tar zxvf fd.tar.gz
 ```
 
-1. ```CMDD```: The directory ```fd/dis_pk_dir```, which includes ```meta_train```
- and ```meta_test```. (The number of the file name represents the idx of a
-  disease.)
+1. [CMDD](https://drive.google.com/file/d/1sZzb3Nzm_Z37lNCfgusJscFuiyhUON5j/view?usp=sharing): The directory ```fd/dis_pk_dir```, which includes ```raw_data```, ```meta_train``` and ```meta_test```. (The number of the file name represents the ID of a
+  disease.) You can also obtain it at the [link](https://drive.google.com/file/d/1sZzb3Nzm_Z37lNCfgusJscFuiyhUON5j/view?usp=sharing)
   
-2. ```MDG-Chunyu```: The directory ```cy/dis_pk_dir```, which also includes
- ```meta_train``` and ```meta_test```. 
+2. [MDG-Chunyu](https://drive.google.com/file/d/1KZ0CrIVZhSLxlZ-V5pnksvgH1xlyd54F/view?usp=sharing): The directory ```cy/dis_pk_dir```, which also includes the ```raw_data```, ```meta_train``` and ```meta_test```. The ID of diseases and symptoms are recorded in the `user_dict.txt`. The disease IDs are as follows:
+ ```
+ {
+   '胃炎': 2,
+   '普通感冒': 13,
+   '肺炎': 73,
+   '便秘': 6,
+   '胃肠功能紊乱': 42,
+   '肠炎': 9,
+   '肠易激综合征': 40,
+   '食管炎': 27,
+   '胃溃疡': 30,
+   '阑尾炎': 35,
+   '胆囊炎': 33,
+   '胰腺炎': 48,
+   '肠梗阻': 52,
+   '痔疮': 18,
+   '肝硬化': 46,
+ }
+ ```
+ 
  
 ## Quick Start
 
