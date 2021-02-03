@@ -1,0 +1,75 @@
+local dim = 300;
+{
+  "dataset_reader": {
+    "type": "seqreader",
+    "source_token_indexers": {
+      "tokens": {
+        "type": "single_id"
+      }
+    }
+  },
+//  "train_data_path": "../data/0510/cy/gen_train.pk",
+//  "validation_data_path": "../data/0510/cy/gen_dev.pk",
+//  "test_data_path": "../data/0510/cy/gen_test.pk",
+//  "train_data_path": "cy/dis_pk_dir/meta_test/train_cy_73.pk",
+//  "validation_data_path": "cy/dis_pk_dir/meta_test/dev_cy_73.pk",
+//
+
+//  "train_data_path": ["cy/dis_pk_dir/meta_train/train_cy_2.pk", "cy/dis_pk_dir/meta_train/train_cy_6.pk", "cy/dis_pk_dir/meta_train/train_cy_27.pk", "cy/dis_pk_dir/meta_train/train_cy_13.pk", "cy/dis_pk_dir/meta_train/train_cy_42.pk",
+//"cy/dis_pk_dir/meta_train/train_cy_9.pk", "cy/dis_pk_dir/meta_train/train_cy_40.pk", "cy/dis_pk_dir/meta_train/train_cy_48.pk","cy/dis_pk_dir/meta_train/train_cy_30.pk","cy/dis_pk_dir/meta_train/train_cy_35.pk", "cy/dis_pk_dir/meta_train/train_cy_33.pk","cy/dis_pk_dir/meta_train/train_cy_18.pk"],
+//  "validation_data_path":  ["cy/dis_pk_dir/meta_train/dev_cy_2.pk", "cy/dis_pk_dir/meta_train/dev_cy_6.pk", "cy/dis_pk_dir/meta_train/dev_cy_27.pk", "cy/dis_pk_dir/meta_train/dev_cy_13.pk", "cy/dis_pk_dir/meta_train/dev_cy_42.pk",
+//"cy/dis_pk_dir/meta_train/dev_cy_9.pk", "cy/dis_pk_dir/meta_train/dev_cy_40.pk", "cy/dis_pk_dir/meta_train/dev_cy_48.pk","cy/dis_pk_dir/meta_train/dev_cy_30.pk","cy/dis_pk_dir/meta_train/dev_cy_35.pk", "cy/dis_pk_dir/meta_train/dev_cy_33.pk","cy/dis_pk_dir/meta_train/dev_cy_18.pk"],
+
+// fd dataset
+//  "train_data_path": "fd/dis_pk_dir/train/train_fd_exc_9.pk",
+//  "validation_data_path": "fd/dis_pk_dir/train/train_fd_exc_9.pk",
+"train_data_path": ["fd/dis_pk_dir/meta_train/train_fd_2.pk", "fd/dis_pk_dir/meta_train/train_fd_7.pk", "fd/dis_pk_dir/meta_train/train_fd_9.pk"],
+
+
+
+//  "test_data_path": "cy/dis_pk_dir/meta_train/dev_cy_2_0.1.pk",
+//
+//  "evaluate_on_test" : true,
+  "model": {
+    "type": "simple_seq2seq1",
+        "max_decoding_steps":32,
+    "source_embedder": {
+      "token_embedders": {
+        "tokens": {
+          "type": "embedding",
+          "embedding_dim": dim,
+        },
+      },
+    },
+    "encoder": {
+      "type": "lstm",
+        "bidirectional": false,
+        "input_size": dim,
+        "hidden_size": dim,
+        "num_layers": 1,
+    },
+    "kg_encoder": {
+      "type": "lstm",
+        "bidirectional": false,
+        "input_size": dim,
+        "hidden_size": dim,
+        "num_layers": 1,
+    }
+  },
+
+  "iterator": {
+    "type": "basic",
+    "batch_size": 16
+  },
+  "trainer": {
+  "type": "metatrainer",
+  "optimizer": {
+        "type": "adam",
+        "lr": 0.0005
+        },
+    "validation_metric": "+f1",
+    "num_epochs": 100,
+    "patience": 5,
+    "cuda_device": 0,
+  }
+}

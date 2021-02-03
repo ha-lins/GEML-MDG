@@ -1,0 +1,92 @@
+local dim = 300;
+//300;
+{
+  "dataset_reader": {
+    "type": "seqreader",
+    "source_token_indexers": {
+      "tokens": {
+        "type": "single_id"
+      }
+    }
+  },
+//  "train_data_path": "cy/dis_pk_dir/meta_train/train_cy_old_0.1.pk",
+//  "validation_data_path": "cy/dis_pk_dir/meta_train/dev_cy_old_0.1.pk",
+// "train_data_path": "cy/dis_pk_dir/meta_train/train_cy_2_0.1.pk",
+// "validation_data_path": "cy/dis_pk_dir/meta_train/dev_cy_2_0.1.pk",
+
+"train_data_path": "fd/dis_pk_dir/train/train_fd_exc_9.pk",
+"validation_data_path": "fd/dis_pk_dir/train/dev_fd_exc_9.pk",
+
+
+//   "test_data_path": "cy/gen_test.pk",
+//  "train_data_path": ["cy/dis_pk_dir/train/train_cy_2_0.1.pk", "cy/dis_pk_dir/train/train_cy_6_0.1.pk", "cy/dis_pk_dir/train/train_cy_27_0.1.pk"],
+// "cy/dis_pk_dir/train/train_cy_9_0.1.pk", "cy/dis_pk_dir/train/train_cy_40_0.1.pk", "cy/dis_pk_dir/train/train_cy_27_0.1.pk","cy/dis_pk_dir/train/train_cy_46_0.1.pk","cy/dis_pk_dir/train/train_cy_35_0.1.pk", "cy/dis_pk_dir/train/train_cy_33_0.1.pk","cy/dis_pk_dir/train/train_cy_18_0.1.pk"],
+//  "validation_data_path":  ["cy/dis_pk_dir/train/dev_cy_2_0.1.pk", "cy/dis_pk_dir/train/dev_cy_6_0.1.pk", "cy/dis_pk_dir/train/dev_cy_27_0.1.pk",
+//"cy/dis_pk_dir/train/dev_cy_9_0.1.pk", "cy/dis_pk_dir/train/dev_cy_40_0.1.pk", "cy/dis_pk_dir/train/dev_cy_27_0.1.pk","cy/dis_pk_dir/train/dev_cy_46_0.1.pk","cy/dis_pk_dir/train/dev_cy_35_0.1.pk", "cy/dis_pk_dir/train/dev_cy_33_0.1.pk","cy/dis_pk_dir/train/dev_cy_18_0.1.pk"],
+
+//  "train_data_path": ["cy/dis_pk_dir/train/train_cy_2_0.1.pk", "cy/dis_pk_dir/train/train_cy_6_0.1.pk", "cy/dis_pk_dir/train/train_cy_27_0.1.pk", "cy/dis_pk_dir/train/train_cy_13_0.1.pk", "cy/dis_pk_dir/train/train_cy_42_0.1.pk",
+//"cy/dis_pk_dir/train/train_cy_9_0.1.pk", "cy/dis_pk_dir/train/train_cy_40_0.1.pk", "cy/dis_pk_dir/train/train_cy_27_0.1.pk","cy/dis_pk_dir/train/train_cy_46_0.1.pk","cy/dis_pk_dir/train/train_cy_35_0.1.pk", "cy/dis_pk_dir/train/train_cy_33_0.1.pk","cy/dis_pk_dir/train/train_cy_18_0.1.pk"],
+//  "validation_data_path":  ["cy/dis_pk_dir/dev_cy_2.pk", "cy/dis_pk_dir/dev_cy_6.pk", "cy/dis_pk_dir/dev_cy_27.pk",
+//"cy/dis_pk_dir/dev_cy_9.pk", "cy/dis_pk_dir/dev_cy_40.pk", "cy/dis_pk_dir/dev_cy_27.pk","cy/dis_pk_dir/dev_cy_46.pk","cy/dis_pk_dir/dev_cy_35.pk", "cy/dis_pk_dir/dev_cy_33.pk","cy/dis_pk_dir/dev_cy_18.pk"],
+
+//old_dis = [2, 6, 48, 9, 40, 27, 46, 35, 33, 18]
+//new_dis = [13, 73, 30, 52, 42]
+//  "evaluate_on_test" : False,
+  "model": {
+    "type": "simple_seq2seq1",
+    "max_decoding_steps": 64,
+    "source_embedder": {
+      "token_embedders": {
+        "tokens": {
+          "type": "embedding",
+          "embedding_dim": dim,
+//          "pretrained_file": "./data_0115/fd_embedding.txt",
+//          "trainable": true,
+        },
+      },
+    },
+    "encoder": {
+      "type": "lstm",
+        "bidirectional": true,
+        "input_size": dim,
+        "hidden_size": dim,
+        "num_layers": 1,
+        "dropout": 0.5
+  },
+    "vecoder":{
+      "type": "gru",
+      "bidirectional": true,
+      "input_size": dim,
+      "hidden_size": dim,
+      "num_layers": 1,
+    "dropout": 0.5
+  },
+    "sen_encoder": {
+      "type": "lstm",
+      "bidirectional": false,
+      "input_size": 2 * dim,
+      "hidden_size": 2 * dim,
+      "num_layers": 1,
+      "dropout": 0.5
+  },
+//    "dropout": 0.5,
+},
+
+  "iterator": {
+    "type": "basic",
+    "batch_size": 16
+  },
+  "trainer": {
+//  "type": "metatrainer",
+  "optimizer": {
+
+      "type": "adam",
+      "lr": 0.001
+    },
+    "validation_metric": "+f1",
+    "num_epochs": 100,
+    "patience": 5,
+    "cuda_device": 0,
+//#[0,1],
+  }
+}

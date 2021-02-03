@@ -1,0 +1,8 @@
+include LICENSE
+include README.md
+recursive-include allennlp *
+recursive-include scripts *
+recursive-include training_config *.json
+recursive-include tutorials *
+global-exclude .DS_Store
+global-exclude __pycache__
