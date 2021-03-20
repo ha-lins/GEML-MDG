@@ -24,6 +24,10 @@
 # system is powered on. Longer term Beaker is planning on adding this
 # functionality to their service directly, which will obsolete this tool.
 
+from enum import Enum
+from logging.handlers import RotatingFileHandler
+from sqlite3 import Connection
+from subprocess import PIPE
 import argparse
 import json
 import logging
@@ -32,12 +36,8 @@ import random
 import sqlite3
 import subprocess
 import time
-from enum import Enum
-from logging.handlers import RotatingFileHandler
-from sqlite3 import Connection
-from subprocess import PIPE
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter(
     fmt="%(asctime)s %(levelname)-8s %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
@@ -53,7 +53,6 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 BEAKER_QUERY_INTERVAL_SECONDS = 1.0
-
 
 # See https://github.com/beaker/client/blob/master/api/task_status.go
 class BeakerStatus(Enum):

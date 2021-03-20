@@ -44,20 +44,10 @@ class CrfTaggerTest(ModelTestCase):
                 tag = self.model.vocab.get_token_from_index(tag_id, namespace="labels")
                 assert tag in {"O", "I-ORG", "I-PER", "I-LOC"}
 
-    def test_low_loss_for_pretrained_transformers(self):
-        self.set_up_model(
-            self.FIXTURES_ROOT / "crf_tagger" / "experiment_albert.json",
-            self.FIXTURES_ROOT / "data" / "conll2003.txt",
-        )
-        training_tensors = self.dataset.as_tensor_dict()
-        output_dict = self.model(**training_tensors)
-
-        assert output_dict["loss"] < 50
-
     def test_forward_pass_top_k(self):
         training_tensors = self.dataset.as_tensor_dict()
         self.model.top_k = 5
-        output_dict = self.model.make_output_human_readable(self.model(**training_tensors))
+        output_dict = self.model.decode(self.model(**training_tensors))
         top_k_tags = [[x["tags"] for x in item_topk] for item_topk in output_dict["top_k_tags"]]
         first_choices = [x[0] for x in top_k_tags]
         assert first_choices == output_dict["tags"]

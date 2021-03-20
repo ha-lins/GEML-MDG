@@ -103,7 +103,7 @@ class TestConditionalRandomField(AllenNlpTestCase):
 
     def test_forward_works_with_mask(self):
         # Use a non-trivial mask
-        mask = torch.tensor([[True, True, True], [True, True, False]])
+        mask = torch.LongTensor([[1, 1, 1], [1, 1, 0]])
 
         log_likelihood = self.crf(self.logits, self.tags, mask).item()
 
@@ -133,7 +133,7 @@ class TestConditionalRandomField(AllenNlpTestCase):
         assert manual_log_likelihood.item() == approx(log_likelihood)
 
     def test_viterbi_tags(self):
-        mask = torch.tensor([[True, True, True], [True, False, True]])
+        mask = torch.LongTensor([[1, 1, 1], [1, 0, 1]])
 
         viterbi_path = self.crf.viterbi_tags(self.logits, mask)
 
@@ -153,14 +153,14 @@ class TestConditionalRandomField(AllenNlpTestCase):
         viterbi_tags = [x for x, y in viterbi_path]
         viterbi_scores = [y for x, y in viterbi_path]
 
-        mask = torch.tensor([[True, True, True], [True, True, True]])
+        mask = torch.LongTensor([[1, 1, 1], [1, 1, 1]])
         most_likely_tags, best_scores = self.naive_most_likely_sequence(self.logits, mask)
 
         assert viterbi_tags == most_likely_tags
         assert_allclose(viterbi_scores, best_scores, rtol=1e-5)
 
     def test_viterbi_tags_top_k(self):
-        mask = torch.tensor([[True, True, True], [True, True, False]])
+        mask = torch.LongTensor([[1, 1, 1], [1, 1, 0]])
 
         best_paths = self.crf.viterbi_tags(self.logits, mask, top_k=2)
 
@@ -199,7 +199,7 @@ class TestConditionalRandomField(AllenNlpTestCase):
         crf.start_transitions = torch.nn.Parameter(self.transitions_from_start)
         crf.end_transitions = torch.nn.Parameter(self.transitions_to_end)
 
-        mask = torch.tensor([[True, True, True], [True, True, False]])
+        mask = torch.LongTensor([[1, 1, 1], [1, 1, 0]])
 
         viterbi_path = crf.viterbi_tags(self.logits, mask)
 

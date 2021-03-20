@@ -1,4 +1,4 @@
-<p align="center"><img width="40%" src="docs/img/allennlp-logo-dark.png" /></p>
+<p align="center"><img width="40%" src="doc/static/allennlp-logo-dark.png" /></p>
 
 [![Build Status](http://build.allennlp.org/app/rest/builds/buildType:(id:AllenNLP_AllenNLPCommits)/statusIcon)](http://build.allennlp.org/viewType.html?buildTypeId=AllenNLP_AllenNLPCommits&guest=1)
 [![codecov](https://codecov.io/gh/allenai/allennlp/branch/master/graph/badge.svg)](https://codecov.io/gh/allenai/allennlp)
@@ -11,11 +11,10 @@ for developing state-of-the-art deep learning models on a wide variety of lingui
 * [Website](https://allennlp.org/)
 * [Tutorial](https://allennlp.org/tutorials)
 * [Forum](https://discourse.allennlp.org)
-* [Documentation](https://docs.allennlp.org/master/)
+* [Documentation](https://allenai.github.io/allennlp-docs/)
 * [Contributing Guidelines](CONTRIBUTING.md)
-* [Pretrained Models](https://github.com/allenai/allennlp-hub/blob/master/allennlp_hub/pretrained/allennlp_pretrained.py)
+* [Model List](MODELS.md)
 * [Continuous Build](http://build.allennlp.org/)
-* [Nightly Releases](https://pypi.org/project/allennlp/#history)
 
 ## Package Overview
 
@@ -87,7 +86,7 @@ Installing the library and dependencies is simple using `pip`.
    ```bash
    pip install allennlp
    ```
-*Looking for bleeding edge features? You can install nightly releases directly from [pypi](https://pypi.org/project/allennlp/#history)*
+
 That's it! You're now ready to build and train AllenNLP models.
 AllenNLP installs a script when you install the python package, meaning you can run allennlp commands just by typing `allennlp` into a terminal.
 
@@ -122,7 +121,6 @@ Create a Python 3.7 virtual environment, and install AllenNLP in `editable` mode
 
   ```bash
   pip install --editable .
-  pip install -r dev-requirements.txt
   ```
 
 This will make `allennlp` available on your system but it will use the sources from the local clone
@@ -141,21 +139,23 @@ $ allennlp
 Run AllenNLP
 
 optional arguments:
-  -h, --help     show this help message and exit
-  --version      show program's version number and exit
+  -h, --help    show this help message and exit
+  --version     show program's version number and exit
 
 Commands:
-  
-    elmo         Create word vectors using a pretrained ELMo model.
-    evaluate     Evaluate the specified model + dataset.
-    find-lr      Find a learning rate range.
-    predict      Use a trained model to make predictions.
-    print-results
-                 Print results from allennlp serialization directories to the
-                 console.
+
+    configure   Run the configuration wizard.
+    train       Train a model.
+    evaluate    Evaluate the specified model + dataset.
+    predict     Use a trained model to make predictions.
+    make-vocab  Create a vocabulary.
+    elmo        Create word vectors using a pretrained ELMo model.
+    fine-tune   Continue training a model on a new dataset.
+    dry-run     Create a vocabulary, compute dataset statistics and other
+                training utilities.
     test-install
-                 Run the unit tests.
-    train        Train a model.
+                Run the unit tests.
+    find-lr     Find a learning rate range.
 ```
 
 ## Docker images

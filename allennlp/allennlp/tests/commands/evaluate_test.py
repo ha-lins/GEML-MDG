@@ -1,26 +1,30 @@
 import argparse
 import json
-from typing import Iterator, List, Dict
+from typing import Iterator, List, Dict, Iterable
 
 import torch
 from flaky import flaky
 
 from allennlp.commands.evaluate import evaluate_from_args, Evaluate, evaluate
 from allennlp.common.testing import AllenNlpTestCase
-from allennlp.data.dataloader import TensorDict
+from allennlp.data import DataIterator, Instance
+from allennlp.data.dataset import Batch
+from allennlp.data.iterators.data_iterator import TensorDict
 from allennlp.models import Model
 
 
-class DummyDataLoader:
+class DummyIterator(DataIterator):
     def __init__(self, outputs: List[TensorDict]) -> None:
         super().__init__()
         self._outputs = outputs
 
-    def __iter__(self) -> Iterator[TensorDict]:
+    def __call__(
+        self, instances: Iterable[Instance], num_epochs: int = None, shuffle: bool = True
+    ) -> Iterator[TensorDict]:
         yield from self._outputs
 
-    def __len__(self):
-        return len(self._outputs)
+    def _create_batches(self, instances: Iterable[Instance], shuffle: bool) -> Iterable[Batch]:
+        raise NotImplementedError
 
 
 class DummyModel(Model):
@@ -37,13 +41,13 @@ class TestEvaluate(AllenNlpTestCase):
 
         self.parser = argparse.ArgumentParser(description="Testing")
         subparsers = self.parser.add_subparsers(title="Commands", metavar="")
-        Evaluate().add_subparser(subparsers)
+        Evaluate().add_subparser("evaluate", subparsers)
 
     def test_evaluate_calculates_average_loss(self):
         losses = [7.0, 9.0, 8.0]
         outputs = [{"loss": torch.Tensor([loss])} for loss in losses]
-        data_loader = DummyDataLoader(outputs)
-        metrics = evaluate(DummyModel(), data_loader, -1, "")
+        iterator = DummyIterator(outputs)
+        metrics = evaluate(DummyModel(), None, iterator, -1, "")
         self.assertAlmostEqual(metrics["loss"], 8.0)
 
     def test_evaluate_calculates_average_loss_with_weights(self):
@@ -54,41 +58,30 @@ class TestEvaluate(AllenNlpTestCase):
             {"loss": torch.Tensor([loss]), "batch_weight": torch.Tensor([weight])}
             for loss, weight in inputs
         ]
-        data_loader = DummyDataLoader(outputs)
-        metrics = evaluate(DummyModel(), data_loader, -1, "batch_weight")
+        iterator = DummyIterator(outputs)
+        metrics = evaluate(DummyModel(), None, iterator, -1, "batch_weight")
         self.assertAlmostEqual(metrics["loss"], (70 + 18 + 12) / 13.5)
 
     @flaky
     def test_evaluate_from_args(self):
         kebab_args = [
             "evaluate",
-            str(
-                self.FIXTURES_ROOT / "simple_tagger_with_span_f1" / "serialization" / "model.tar.gz"
-            ),
-            str(self.FIXTURES_ROOT / "data" / "conll2003.txt"),
+            str(self.FIXTURES_ROOT / "bidaf" / "serialization" / "model.tar.gz"),
+            str(self.FIXTURES_ROOT / "data" / "squad.json"),
             "--cuda-device",
             "-1",
         ]
 
         args = self.parser.parse_args(kebab_args)
         metrics = evaluate_from_args(args)
-        assert metrics.keys() == {
-            "accuracy",
-            "accuracy3",
-            "precision-overall",
-            "recall-overall",
-            "f1-measure-overall",
-            "loss",
-        }
+        assert metrics.keys() == {"span_acc", "end_acc", "start_acc", "em", "f1", "loss"}
 
     def test_output_file_evaluate_from_args(self):
         output_file = str(self.TEST_DIR / "metrics.json")
         kebab_args = [
             "evaluate",
-            str(
-                self.FIXTURES_ROOT / "simple_tagger_with_span_f1" / "serialization" / "model.tar.gz"
-            ),
-            str(self.FIXTURES_ROOT / "data" / "conll2003.txt"),
+            str(self.FIXTURES_ROOT / "bidaf" / "serialization" / "model.tar.gz"),
+            str(self.FIXTURES_ROOT / "data" / "squad.json"),
             "--cuda-device",
             "-1",
             "--output-file",

@@ -8,14 +8,12 @@
     "model": {
       "type": "graph_parser",
       "text_field_embedder": {
-        "token_embedders": {
-          "tokens": {
-            "type": "embedding",
-            "embedding_dim": 100,
-            "pretrained_file": "/home/markn/data/glove/glove.6B/glove.6B.100d.txt",
-            "trainable": true,
-            "sparse": true
-          }
+        "tokens": {
+          "type": "embedding",
+          "embedding_dim": 100,
+          "pretrained_file": "/home/markn/data/glove/glove.6B/glove.6B.100d.txt",
+          "trainable": true,
+          "sparse": true
         }
       },
       "pos_tag_embedding":{
@@ -46,11 +44,10 @@
         [".*bias_hh.*", {"type": "lstm_hidden_bias"}]]
     },
 
-    "data_loader": {
-      "batch_sampler": {
-        "type": "bucket",
-        "batch_size": 128
-      }
+    "iterator": {
+      "type": "bucket",
+      "sorting_keys": [["tokens", "num_tokens"]],
+      "batch_size" : 128
     },
     "trainer": {
       "num_epochs": 80,

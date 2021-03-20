@@ -36,6 +36,6 @@ local COMMON = import 'common.jsonnet';
             "dropout": 0.1
       }
     },
-    "data_loader": COMMON['data_loader'],
+    "iterator": COMMON['iterator'],
     "trainer": COMMON['trainer']
 }

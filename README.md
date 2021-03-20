@@ -1,6 +1,6 @@
 # Graph Evolving Meta-Learning for Low-resource Medical Dialogue Generation
 
-*Code and data coming soon...*
+*Code to be further cleaned...*
 
 This repo contains the code of the following paper:
 

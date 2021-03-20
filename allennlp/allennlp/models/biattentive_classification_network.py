@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 import numpy
 from overrides import overrides
@@ -6,11 +6,12 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+from allennlp.common import Params
 from allennlp.common.checks import check_dimensions_match, ConfigurationError
-from allennlp.data import TextFieldTensors, Vocabulary
+from allennlp.data import Vocabulary
 from allennlp.modules import Elmo, FeedForward, Maxout, Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.models.model import Model
-from allennlp.nn import InitializerApplicator
+from allennlp.nn import InitializerApplicator, RegularizerApplicator
 from allennlp.nn import util
 from allennlp.training.metrics import CategoricalAccuracy
 
@@ -19,53 +20,55 @@ from allennlp.training.metrics import CategoricalAccuracy
 class BiattentiveClassificationNetwork(Model):
     """
     This class implements the Biattentive Classification Network model described
-    in section 5 of [Learned in Translation: Contextualized Word Vectors (NIPS 2017)]
-    (https://arxiv.org/abs/1708.00107) for text classification. We assume we're
+    in section 5 of `Learned in Translation: Contextualized Word Vectors (NIPS 2017)
+    <https://arxiv.org/abs/1708.00107>`_ for text classification. We assume we're
     given a piece of text, and we predict some output label.
 
     At a high level, the model starts by embedding the tokens and running them through
-    a feed-forward neural net (`pre_encode_feedforward`). Then, we encode these
-    representations with a `Seq2SeqEncoder` (`encoder`). We run biattention
+    a feed-forward neural net (``pre_encode_feedforward``). Then, we encode these
+    representations with a ``Seq2SeqEncoder`` (``encoder``). We run biattention
     on the encoder output representations (self-attention in this case, since
     the two representations that typically go into biattention are identical) and
     get out an attentive vector representation of the text. We combine this text
     representation with the encoder outputs computed earlier, and then run this through
-    yet another `Seq2SeqEncoder` (the `integrator`). Lastly, we take the output of the
+    yet another ``Seq2SeqEncoder`` (the ``integrator``). Lastly, we take the output of the
     integrator and max, min, mean, and self-attention pool to create a final representation,
     which is passed through a maxout network or some feed-forward layers
-    to output a classification (`output_layer`).
+    to output a classification (``output_layer``).
 
-    # Parameters
-
-    vocab : `Vocabulary`, required
+    Parameters
+    ----------
+    vocab : ``Vocabulary``, required
         A Vocabulary, required in order to compute sizes for input/output projections.
-    text_field_embedder : `TextFieldEmbedder`, required
-        Used to embed the `tokens` `TextField` we get as input to the model.
-    embedding_dropout : `float`
+    text_field_embedder : ``TextFieldEmbedder``, required
+        Used to embed the ``tokens`` ``TextField`` we get as input to the model.
+    embedding_dropout : ``float``
         The amount of dropout to apply on the embeddings.
-    pre_encode_feedforward : `FeedForward`
+    pre_encode_feedforward : ``FeedForward``
         A feedforward network that is run on the embedded tokens before they
         are passed to the encoder.
-    encoder : `Seq2SeqEncoder`
+    encoder : ``Seq2SeqEncoder``
         The encoder to use on the tokens.
-    integrator : `Seq2SeqEncoder`
+    integrator : ``Seq2SeqEncoder``
         The encoder to use when integrating the attentive text encoding
         with the token encodings.
-    integrator_dropout : `float`
+    integrator_dropout : ``float``
         The amount of dropout to apply on integrator output.
-    output_layer : `Union[Maxout, FeedForward]`
+    output_layer : ``Union[Maxout, FeedForward]``
         The maxout or feed forward network that takes the final representations and produces
         a classification prediction.
-    elmo : `Elmo`, optional (default=`None`)
+    elmo : ``Elmo``, optional (default=``None``)
         If provided, will be used to concatenate pretrained ELMo representations to
-        either the integrator output (`use_integrator_output_elmo`) or the
-        input (`use_input_elmo`).
-    use_input_elmo : `bool` (default=`False`)
+        either the integrator output (``use_integrator_output_elmo``) or the
+        input (``use_input_elmo``).
+    use_input_elmo : ``bool`` (default=``False``)
         If true, concatenate pretrained ELMo representations to the input vectors.
-    use_integrator_output_elmo : `bool` (default=`False`)
+    use_integrator_output_elmo : ``bool`` (default=``False``)
         If true, concatenate pretrained ELMo representations to the integrator output.
-    initializer : `InitializerApplicator`, optional (default=`InitializerApplicator()`)
+    initializer : ``InitializerApplicator``, optional (default=``InitializerApplicator()``)
         Used to initialize the model parameters.
+    regularizer : ``RegularizerApplicator``, optional (default=``None``)
+        If provided, will be used to calculate the regularization penalty during training.
     """
 
     def __init__(
@@ -78,13 +81,13 @@ class BiattentiveClassificationNetwork(Model):
         integrator: Seq2SeqEncoder,
         integrator_dropout: float,
         output_layer: Union[FeedForward, Maxout],
-        elmo: Elmo = None,
+        elmo: Elmo,
         use_input_elmo: bool = False,
         use_integrator_output_elmo: bool = False,
         initializer: InitializerApplicator = InitializerApplicator(),
-        **kwargs,
+        regularizer: Optional[RegularizerApplicator] = None,
     ) -> None:
-        super().__init__(vocab, **kwargs)
+        super().__init__(vocab, regularizer)
 
         self._text_field_embedder = text_field_embedder
         if "elmo" in self._text_field_embedder._token_embedders.keys():
@@ -202,27 +205,27 @@ class BiattentiveClassificationNetwork(Model):
     @overrides
     def forward(
         self,  # type: ignore
-        tokens: TextFieldTensors,
+        tokens: Dict[str, torch.LongTensor],
         label: torch.LongTensor = None,
     ) -> Dict[str, torch.Tensor]:
 
         """
-        # Parameters
-
-        tokens : TextFieldTensors, required
-            The output of `TextField.as_array()`.
+        Parameters
+        ----------
+        tokens : Dict[str, torch.LongTensor], required
+            The output of ``TextField.as_array()``.
         label : torch.LongTensor, optional (default = None)
             A variable representing the label for each instance in the batch.
-        # Returns
-
+        Returns
+        -------
         An output dictionary consisting of:
         class_probabilities : torch.FloatTensor
-            A tensor of shape `(batch_size, num_classes)` representing a
+            A tensor of shape ``(batch_size, num_classes)`` representing a
             distribution over the label classes for each instance.
         loss : torch.FloatTensor, optional
             A scalar loss to be optimised.
         """
-        text_mask = util.get_text_field_mask(tokens)
+        text_mask = util.get_text_field_mask(tokens).float()
         # Pop elmo tokens, since elmo embedder should not be present.
         elmo_tokens = tokens.pop("elmo", None)
         if tokens:
@@ -239,7 +242,7 @@ class BiattentiveClassificationNetwork(Model):
         # Create ELMo embeddings if applicable
         if self._elmo:
             if elmo_tokens is not None:
-                elmo_representations = self._elmo(elmo_tokens["tokens"])["elmo_representations"]
+                elmo_representations = self._elmo(elmo_tokens)["elmo_representations"]
                 # Pop from the end is more performant with list
                 if self._use_integrator_output_elmo:
                     integrator_output_elmo = elmo_representations.pop()
@@ -278,15 +281,11 @@ class BiattentiveClassificationNetwork(Model):
 
         # Simple Pooling layers
         max_masked_integrated_encodings = util.replace_masked_values(
-            integrated_encodings,
-            text_mask.unsqueeze(2),
-            util.min_value_of_dtype(integrated_encodings.dtype),
+            integrated_encodings, text_mask.unsqueeze(2), -1e7
         )
         max_pool = torch.max(max_masked_integrated_encodings, 1)[0]
         min_masked_integrated_encodings = util.replace_masked_values(
-            integrated_encodings,
-            text_mask.unsqueeze(2),
-            util.max_value_of_dtype(integrated_encodings.dtype),
+            integrated_encodings, text_mask.unsqueeze(2), +1e7
         )
         min_pool = torch.min(min_masked_integrated_encodings, 1)[0]
         mean_pool = torch.sum(integrated_encodings, 1) / torch.sum(text_mask, 1, keepdim=True)
@@ -316,12 +315,10 @@ class BiattentiveClassificationNetwork(Model):
         return output_dict
 
     @overrides
-    def make_output_human_readable(
-        self, output_dict: Dict[str, torch.Tensor]
-    ) -> Dict[str, torch.Tensor]:
+    def decode(self, output_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         """
         Does a simple argmax over the class probabilities, converts indices to string labels, and
-        adds a `"label"` key to the dictionary with the result.
+        adds a ``"label"`` key to the dictionary with the result.
         """
         predictions = output_dict["class_probabilities"].cpu().data.numpy()
         argmax_indices = numpy.argmax(predictions, axis=-1)
@@ -334,3 +331,49 @@ class BiattentiveClassificationNetwork(Model):
         return {
             metric_name: metric.get_metric(reset) for metric_name, metric in self.metrics.items()
         }
+
+    # The FeedForward vs Maxout logic here requires a custom from_params.
+    @classmethod
+    def from_params(  # type: ignore
+        cls, vocab: Vocabulary, params: Params
+    ) -> "BiattentiveClassificationNetwork":
+
+        embedder_params = params.pop("text_field_embedder")
+        text_field_embedder = TextFieldEmbedder.from_params(vocab=vocab, params=embedder_params)
+        embedding_dropout = params.pop("embedding_dropout")
+        pre_encode_feedforward = FeedForward.from_params(params.pop("pre_encode_feedforward"))
+        encoder = Seq2SeqEncoder.from_params(params.pop("encoder"))
+        integrator = Seq2SeqEncoder.from_params(params.pop("integrator"))
+        integrator_dropout = params.pop("integrator_dropout")
+
+        output_layer_params = params.pop("output_layer")
+        if "activations" in output_layer_params:
+            output_layer = FeedForward.from_params(output_layer_params)
+        else:
+            output_layer = Maxout.from_params(output_layer_params)
+
+        elmo = params.pop("elmo", None)
+        if elmo is not None:
+            elmo = Elmo.from_params(elmo)
+        use_input_elmo = params.pop_bool("use_input_elmo", False)
+        use_integrator_output_elmo = params.pop_bool("use_integrator_output_elmo", False)
+
+        initializer = InitializerApplicator.from_params(params.pop("initializer", []))
+        regularizer = RegularizerApplicator.from_params(params.pop("regularizer", []))
+        params.assert_empty(cls.__name__)
+
+        return cls(
+            vocab=vocab,
+            text_field_embedder=text_field_embedder,
+            embedding_dropout=embedding_dropout,
+            pre_encode_feedforward=pre_encode_feedforward,
+            encoder=encoder,
+            integrator=integrator,
+            integrator_dropout=integrator_dropout,
+            output_layer=output_layer,
+            elmo=elmo,
+            use_input_elmo=use_input_elmo,
+            use_integrator_output_elmo=use_integrator_output_elmo,
+            initializer=initializer,
+            regularizer=regularizer,
+        )

@@ -21,27 +21,25 @@
     "type": "bimpm",
     "dropout": 0.1,
     "text_field_embedder": {
-      "token_embedders": {
-        "tokens": {
-          "type": "embedding",
-          "pretrained_file": "https://allennlp.s3.amazonaws.com/datasets/glove/glove.840B.300d.txt.gz",
-          "embedding_dim": 300,
-          "trainable": false,
+      "tokens": {
+        "type": "embedding",
+        "pretrained_file": "https://allennlp.s3.amazonaws.com/datasets/glove/glove.840B.300d.txt.gz",
+        "embedding_dim": 300,
+        "trainable": false,
+        "padding_index": 0
+      },
+      "token_characters": {
+        "type": "character_encoding",
+        "embedding": {
+          "embedding_dim": 20,
           "padding_index": 0
         },
-        "token_characters": {
-          "type": "character_encoding",
-          "embedding": {
-            "embedding_dim": 20,
-            "padding_index": 0
-          },
-          "encoder": {
-            "type": "gru",
-            "input_size": 20,
-            "hidden_size": 50,
-            "num_layers": 1,
-            "bidirectional": true
-          }
+        "encoder": {
+          "type": "gru",
+          "input_size": 20,
+          "hidden_size": 50,
+          "num_layers": 1,
+          "bidirectional": true
         }
       }
     },
@@ -109,14 +107,12 @@
       [".*matcher.*match_weights.*", {"type": "kaiming_normal"}]
     ]
   },
-  "data_loader": {
-    "batch_sampler": {
-      "type": "bucket",
-      "padding_noise": 0.1,
-      "batch_size" : 32
-    }
+  "iterator": {
+    "type": "bucket",
+    "padding_noise": 0.1,
+    "sorting_keys": [["premise", "num_tokens"], ["hypothesis", "num_tokens"]],
+    "batch_size": 32
   },
-
   "trainer": {
     "num_epochs": 40,
     "patience": 10,

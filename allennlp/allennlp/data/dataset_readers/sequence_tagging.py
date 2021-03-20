@@ -20,21 +20,19 @@ class SequenceTaggingDatasetReader(DatasetReader):
     """
     Reads instances from a pretokenised file where each line is in the following format:
 
-    ```
     WORD###TAG [TAB] WORD###TAG [TAB] ..... \n
-    ```
 
-    and converts it into a `Dataset` suitable for sequence tagging. You can also specify
+    and converts it into a ``Dataset`` suitable for sequence tagging. You can also specify
     alternative delimiters in the constructor.
 
-    # Parameters
-
-    word_tag_delimiter: `str`, optional (default=`"###"`)
+    Parameters
+    ----------
+    word_tag_delimiter: ``str``, optional (default=``"###"``)
         The text that separates each WORD from its TAG.
-    token_delimiter: `str`, optional (default=`None`)
-        The text that separates each WORD-TAG pair from the next pair. If `None`
+    token_delimiter: ``str``, optional (default=``None``)
+        The text that separates each WORD-TAG pair from the next pair. If ``None``
         then the line will just be split on whitespace.
-    token_indexers : `Dict[str, TokenIndexer]`, optional (default=`{"tokens": SingleIdTokenIndexer()}`)
+    token_indexers : ``Dict[str, TokenIndexer]``, optional (default=``{"tokens": SingleIdTokenIndexer()}``)
         We use this to define the input representation for the text.  See :class:`TokenIndexer`.
         Note that the `output` tags will always correspond to single token IDs based on how they
         are pre-tokenised in the data file.
@@ -45,9 +43,9 @@ class SequenceTaggingDatasetReader(DatasetReader):
         word_tag_delimiter: str = DEFAULT_WORD_TAG_DELIMITER,
         token_delimiter: str = None,
         token_indexers: Dict[str, TokenIndexer] = None,
-        **kwargs,
+        lazy: bool = False,
     ) -> None:
-        super().__init__(**kwargs)
+        super().__init__(lazy)
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
         self._word_tag_delimiter = word_tag_delimiter
         self._token_delimiter = token_delimiter

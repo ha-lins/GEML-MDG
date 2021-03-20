@@ -22,14 +22,12 @@
       "num_layers": 1
     }
   },
-  "data_loader": {
-      "batch_sampler": {
-        "type": "bucket",
-        "sorting_keys": ["tokens"],
-        "padding_noise": 0.0,
-        "batch_size" : 80
-    }
-},
+  "iterator": {
+    "type": "bucket",
+    "sorting_keys": [["tokens", "num_tokens"]],
+    "padding_noise": 0.0,
+    "batch_size" : 80
+  },
   "trainer": {
     "num_epochs": 1,
     "grad_norm": 1.0,

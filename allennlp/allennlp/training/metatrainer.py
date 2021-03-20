@@ -1,4 +1,3 @@
-
 import logging
 import math
 import os
@@ -27,28 +26,50 @@ from allennlp.training.tensorboard_writer import TensorboardWriter
 from allennlp.training.trainer_base import TrainerBase
 from allennlp.training import util as training_util
 from allennlp.training.moving_average import MovingAverage
-from allennlp.training import Trainer
+from allennlp.training.trainer import Trainer
 from copy import deepcopy
 from allennlp.training.meta_pieces import MetaTrainerPieces
 from allennlp.training.trainer_pieces import TrainerPieces
 from allennlp.training.meta_utils import meta_dataset_from_params
+from copy import deepcopy
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 @TrainerBase.register('metatrainer')
-class MetaTrainer(Trainer):
+class MetaTrainer(TrainerBase):
     def __init__(self,
                  model: Model,
                  optimizer: torch.optim.Optimizer,
                  iterator: DataIterator,
                  train_datasets: List[Iterable[Instance]],
-                 validation_datasets: Optional[Iterable[Instance]] = None,
+                 validation_datasets: List[Iterable[Instance]] = None,
+                 patience: Optional[int] = None,
+                 validation_metric: str = "-loss",
+                 validation_iterator: DataIterator = None,
+                 shuffle: bool = True,
+                 num_epochs: int = 50,
+                 serialization_dir: Optional[str] = None,
+                 num_serialized_models_to_keep: int = 20,
+                 keep_serialized_model_every_num_seconds: int = None,
+                 checkpointer: Checkpointer = None,
+                 model_save_interval: float = None,
+                 cuda_device: Union[int, List] = [0,1], #int = -1,
+                 grad_norm: Optional[float] = None,
+                 grad_clipping: Optional[float] = None,
+                 learning_rate_scheduler: Optional[LearningRateScheduler] = None,
+                 momentum_scheduler: Optional[MomentumScheduler] = None,
+                 summary_interval: int = 100,
+                 histogram_interval: int = None,
+                 should_log_parameter_statistics: bool = True,
+                 should_log_learning_rate: bool = False,
+                 log_batch_size_period: Optional[int] = None,
+                 moving_average: Optional[MovingAverage] = None,
                  # meta learner parameters
-                 meta_batches: int = 200,
-                 inner_steps: int = 3,
-                 tasks_per_batch: int = 2,
+                 meta_batches: int = 80,
+                 inner_steps: int = 1,
+                 meta_batch_size: int = 3, #11,
                  batch_norm = True,
-                 **kwargs) -> None:
+                 ) -> None:
                 
         """
         A metatrainer for doing meta-learning. It just takes a list of labeled datasets
@@ -61,38 +82,102 @@ class MetaTrainer(Trainer):
         model : ``Model``, required.
           
         """
-
+        # print('[info]============================ metatrainer.init is running')
+        # print('[info] cuda_device in metatrainer.init is:{}'.format(cuda_device))
         # I am not calling move_to_gpu here, because if the model is
         # not already on the GPU then the optimizer is going to be wrong.
-        super().__init__(model, optimizer, iterator, train_datasets, **kwargs)
+        super().__init__(serialization_dir, cuda_device)
         self.train_data = train_datasets
         self._validation_data = validation_datasets
+        self.model = model
+        self.iterator = iterator[0]
+        self._validation_iterator = validation_iterator
+        self.shuffle = shuffle
+        self.optimizer = optimizer
+
+
         # Meta Trainer specific params
         self.meta_batches = meta_batches
-        self.tasks_per_batch = tasks_per_batch
         self.inner_steps = inner_steps
-        self.step_size = .01
+        self.innerstepsize = .001
+        self.meta_batch_size = meta_batch_size
+        self.meta_step_size = .01
         self.batch_norm = batch_norm
 
+        if patience is None:  # no early stopping
+            if validation_dataset:
+                logger.warning('You provided a validation dataset but patience was set to None, '
+                               'meaning that early stopping is disabled')
+        elif (not isinstance(patience, int)) or patience <= 0:
+            raise ConfigurationError('{} is an invalid value for "patience": it must be a positive integer '
+                                     'or None (if you want to disable early stopping)'.format(patience))
 
+        # For tracking is_best_so_far and should_stop_early
+        self._metric_tracker = MetricTracker(patience, validation_metric)
+        # Get rid of + or -
+        self._validation_metric = validation_metric[1:]
+
+        self._num_epochs = num_epochs
+
+        if checkpointer is not None:
+            # We can't easily check if these parameters were passed in, so check against their default values.
+            # We don't check against serialization_dir since it is also used by the parent class.
+            if num_serialized_models_to_keep != 20 or \
+                    keep_serialized_model_every_num_seconds is not None:
+                raise ConfigurationError(
+                    "When passing a custom Checkpointer, you may not also pass in separate checkpointer "
+                    "args 'num_serialized_models_to_keep' or 'keep_serialized_model_every_num_seconds'.")
+            self._checkpointer = checkpointer
+        else:
+            self._checkpointer = Checkpointer(serialization_dir,
+                                              keep_serialized_model_every_num_seconds,
+                                              num_serialized_models_to_keep)
+
+        self._model_save_interval = model_save_interval
+
+        self._grad_norm = grad_norm
+        self._grad_clipping = grad_clipping
+
+        self._learning_rate_scheduler = learning_rate_scheduler
+        self._momentum_scheduler = momentum_scheduler
+        self._moving_average = moving_average
+
+        # We keep the total batch number as an instance variable because it
+        # is used inside a closure for the hook which logs activations in
+        # ``_enable_activation_logging``.
+        self._batch_num_total = 0
+
+        self._tensorboard = TensorboardWriter(
+            get_batch_num_total=lambda: self._batch_num_total,
+            serialization_dir=serialization_dir,
+            summary_interval=summary_interval,
+            histogram_interval=histogram_interval,
+            should_log_parameter_statistics=should_log_parameter_statistics,
+            should_log_learning_rate=should_log_learning_rate)
+
+        self._log_batch_size_period = log_batch_size_period
+
+        self._last_log = 0.0  # time of last logging
+
+        # Enable activation logging.
+        if histogram_interval is not None:
+            self._tensorboard.enable_activation_logging(self.model)
 
     def rescale_gradients(self) -> Optional[float]:
         return training_util.rescale_gradients(self.model, self._grad_norm)
 
     # TODO check out overriding
-    def batch_loss(self, batch_group: List[TensorDict], for_training: bool) -> torch.Tensor:
+    def batch_loss(self, batch: TensorDict, for_training: bool) -> torch.Tensor:
         """
         Does a forward pass on the given batches and returns the ``loss`` value in the result.
         If ``for_training`` is `True` also applies regularization penalty.
         """
-        if self._multiple_gpu:
-            output_dict = training_util.data_parallel(batch_group, self.model, self._cuda_devices)
+
+        if self._multiple_gpu:#len(self.cuda_device) > 1:
+            # print('[info] self.cuda_device is:{}'.format(self.cuda_device))
+            # print('[info] batch len:{}, is:{}'.format(len(batch), batch))
+            output_dict = training_util.data_parallel(batch, self.model, self._cuda_devices)
         else:
-            print("The length is ")
-            print(len(batch_group))
-            print(batch_group)
-            assert len(batch_group) == 1
-            batch = batch_group[0]
             batch = nn_util.move_to_device(batch, self._cuda_devices[0])
             output_dict = self.model(**batch)
 
@@ -108,36 +193,56 @@ class MetaTrainer(Trainer):
 
         return loss
 
-    def reptile_inner_update(self, batch_data: List[TensorDict])->float:
+    def reptile_inner_update(self, batch_data: TensorDict)->float:
         loss = self.batch_loss(batch_data, True)
         if torch.isnan(loss):
             raise ValueError("nan loss encountered")
         loss.backward()
         temp_loss = loss.item()
         self.optimizer.step()
+
         # This only place where vary from implementation
-        ##for param in model.parameters():
-            #TODO add innerstepsize
-                ##param.data -= innerstepsize * param.grad.data
+        # for param in self.model.parameters():
+            # TODO add innerstepsize
+            # param.data -= self.innerstepsize * param.grad.data
         return temp_loss
 
 
-    def reptile_outer_update(self, train_generators: List[Iterable], iteration: int):
+    def reptile_outer_update(self, train_generators: List[Iterable], epoch: int, num_gpus: int):
         # https://github.com/farbodtm/reptile-pytorch/blob/master/reptile.py
         weights_before = deepcopy(self.model.state_dict())
         self.optimizer.zero_grad()
+
         random.shuffle(train_generators)
-        task = train_generators[0]
-        task_wrap = Tqdm.tqdm(task, total=self.inner_steps)
+        new_weights = []
         total_loss = 0.0
-        for batch_data in task_wrap:
-            total_loss += self.reptile_inner_update(batch_data)
-        weights_after = self.model.state_dict()
+        # for batch in train_generators[0]:
+        #     print('[info]batch is:{}'.format(batch))
+
+        task_wrap = Tqdm.tqdm(zip(train_generators[0], train_generators[1], train_generators[2]), total=1)
+        # task_wrap = Tqdm.tqdm(zip(train_generators[0], train_generators[1], train_generators[2], \
+        #                           train_generators[3], train_generators[4], train_generators[5], \
+        #                           train_generators[6], train_generators[7],train_generators[8], \
+        #                           train_generators[9], train_generators[10]), total=1)
+
+        # task_wrap = Tqdm.tqdm(zip(train_generators[0], train_generators[1], train_generators[2]), total=1)
+
+        for i, batch_group in enumerate(task_wrap):
+            for k in range(self.meta_batch_size):  # tasks per batch
+                total_loss += self.reptile_inner_update(batch_group[k][0])
+                new_weights.append(deepcopy(self.model.state_dict()))
+                self.model.load_state_dict({name: weights_before[name] for name in weights_before})
+            break
+
+        weights_after = {name: new_weights[0][name] / float(self.meta_batch_size) for name in new_weights[0]}
+        for i in range(1, self.meta_batch_size):
+            for name in new_weights[i]:
+                weights_after[name] += new_weights[i][name] / float(self.meta_batch_size)
         #They used self.step_size of 1.0 in some of their outer.
-        outerstepsize = self.step_size * (1 - iteration / self.meta_batches) # linear schedule
+        outerstepsize = self.meta_step_size * (1 - epoch / self._num_epochs) # linear schedule
         self.model.load_state_dict({name : weights_before[name] + (weights_after[name] - weights_before[name]) * outerstepsize
         for name in weights_before})
-        return total_loss
+        return total_loss / self.meta_batch_size
 
     def _train_epoch(self, epoch: int) -> Dict[str, float]:
         """
@@ -158,15 +263,9 @@ class MetaTrainer(Trainer):
 
         num_gpus = len(self._cuda_devices)
         raw_generators = []
-        train_generators = []
-        for i, train_info in enumerate(self.train_data):
-            raw_train_generator = self.iterator(train_info,
-                                            num_epochs=1,
-                                            shuffle=self.shuffle)
-            train_generators.append(lazy_groups_of(raw_train_generator, num_gpus))
-        
+
         # fix max number of batches 
-        num_training_batches = math.ceil(self.iterator.get_num_batches(self.train_data)/num_gpus)
+        # print('[info] num_training_batches is:{}'.format(num_training_batches))
         self._last_log = time.time()
         last_save_time = time.time()
 
@@ -176,21 +275,34 @@ class MetaTrainer(Trainer):
 
         histogram_parameters = set(self.model.get_parameters_for_histogram_tensorboard_logging())
 
-
         logger.info("Training")
         
         cumulative_batch_size = 0
-        for i in range(0, self.meta_batches):
-            loss_batch = self.reptile_outer_update(train_generators, i)
+        for batch_i in range(0, self.meta_batches):
+            batches_this_epoch += 1
+            self._batch_num_total += 1
+            batch_num_total = self._batch_num_total
 
-            # TODO figure out if is important 
-            train_loss += loss_batch
+            train_generators = []
+            for i, train_info in enumerate(self.train_data):
+                raw_train_generator = self.iterator(train_info,
+                                                    num_epochs=1,
+                                                    shuffle=self.shuffle)
+                train_generators.append(lazy_groups_of(raw_train_generator, num_gpus))
+
+            loss_batch = self.reptile_outer_update(train_generators, epoch, num_gpus)
+
+            # TODO figure out if is important
+            train_loss = loss_batch
+            print('[info] train_loss is:{}, loss_batch is:{}'.format(train_loss, loss_batch))
+
             # TODO figure out BATCH NORM MAML https://openreview.net/pdf?id=HygBZnRctX
             if self.batch_norm:
                 batch_grad_norm = self.rescale_gradients()
             # This does nothing if batch_num_total is None or you are using a
             # scheduler which doesn't update per batch.
-            # TODO investigate learning rate scheduling for meta learning 
+            # TODO investigate learning rate scheduling for meta learning
+
             #if self._learning_rate_scheduler:
                 #self._learning_rate_scheduler.step_batch(batch_num_total)
             #if self._momentum_scheduler:
@@ -259,39 +371,40 @@ class MetaTrainer(Trainer):
         Computes the validation loss. Returns it and the number of batches.
         """
         logger.info("Validating")
+        self.model.eval()
+
 
         # Replace parameter values with the shadow values from the moving averages.
         if self._moving_average is not None:
             self._moving_average.assign_average_value()
 
         if self._validation_iterator is not None:
-            val_iterator = self._validation_iterator
+            val_iterator = self._validation_iterator[0]
         else:
             val_iterator = self.iterator
 
         num_gpus = len(self._cuda_devices)
 
-        raw_val_generator = val_iterator(self._validation_data,
-                                         num_epochs=1,
-                                         shuffle=False)
-        val_generator = lazy_groups_of(raw_val_generator, num_gpus)
-        num_validation_batches = math.ceil(val_iterator.get_num_batches(self._validation_data)/num_gpus)
-        val_generator_tqdm = Tqdm.tqdm(val_generator,
+        valid_generators = []
+        for i, valid_info in enumerate(self._validation_data):
+            raw_val_generator = self.iterator(valid_info,
+                                                num_epochs=1,
+                                                shuffle=self.shuffle)
+            valid_generators.append(lazy_groups_of(raw_val_generator, num_gpus))
+
+        num_validation_batches = min(map(lambda i :math.ceil(val_iterator.get_num_batches(self._validation_data[i])/num_gpus), range(self.meta_batch_size)))
+        # print('[info]num_validation_batches is:{}'.format(num_validation_batches))
+        val_generator_tqdm = Tqdm.tqdm(zip(valid_generators[0], valid_generators[1], valid_generators[2]),
                                        total=num_validation_batches)
         print("val gene called")
         batches_this_epoch = 0
         val_loss = 0
-        try:
-            few_shot = val_generator.__next__()
-        except:
-            print("Error could not do few shot validation")
-            return batches_this_epoch, val_loss
-        self.reptile_inner_update(few_shot)
-        self.model.eval()
+        # self.reptile_inner_update(few_shot[0])
 
-        with torch.no_grad():
-            for batch_group in val_generator_tqdm:
-                loss = self.batch_loss(batch_group, for_training=False)
+        # for batch_id in range(0, num_validation_batches):
+        for i, batch_group in enumerate(val_generator_tqdm):
+            for k in range(self.meta_batch_size):  # tasks per batch
+                loss = self.batch_loss(batch_group[k][0], for_training=False)
                 if loss is not None:
                     # You shouldn't necessarily have to compute a loss for validation, so we allow for
                     # `loss` to be None.  We need to be careful, though - `batches_this_epoch` is
@@ -301,10 +414,10 @@ class MetaTrainer(Trainer):
                     batches_this_epoch += 1
                     val_loss += loss.detach().cpu().numpy()
 
-                # Update the description with the latest metrics
-                val_metrics = training_util.get_metrics(self.model, val_loss, batches_this_epoch)
-                description = training_util.description_from_metrics(val_metrics)
-                val_generator_tqdm.set_description(description, refresh=False)
+            # Update the description with the latest metrics
+            val_metrics = training_util.get_metrics(self.model, val_loss, batches_this_epoch)
+            description = training_util.description_from_metrics(val_metrics)
+            val_generator_tqdm.set_description(description, refresh=False)
 
         # Now restore the original parameter values.
         if self._moving_average is not None:
@@ -524,19 +637,31 @@ class MetaTrainer(Trainer):
                     recover: bool = False,
                     cache_directory: str = None,
                     cache_prefix: str = None) -> 'Trainer':
-        datasets = meta_dataset_from_params(params, cache_directory=cache_directory, cache_prefix=cache_prefix)
-        model = Model.from_params(vocab=vocab, params=params.pop("model"))
-        iterator = DataIterator.from_params(params.pop("iterator"))
-        iterator.index_with(model.vocab)
+        # datasets = meta_dataset_from_params(params, cache_directory=cache_directory, cache_prefix=cache_prefix)
+        # model = Model.from_params(vocab=vocab, params=params.pop("model"))
+        # iterator = DataIterator.from_params(params.pop("iterator"))
+        # iterator.index_with(model.vocab)
+        print('[info]============================ metatrainer.from_params is running')
+        pieces = MetaTrainerPieces.from_params(
+            params, serialization_dir, recover, cache_directory, cache_prefix
+        )
+        model = pieces.model
+        iterator = pieces.iterator,
+        # params=pieces.params,
         train_data = pieces.train_dataset
         validation_data = pieces.validation_dataset
         validation_iterator = pieces.validation_iterator
+        params = pieces.params
+
         # pylint: disable=arguments-differ
         patience = params.pop_int("patience", None)
         validation_metric = params.pop("validation_metric", "-loss")
         shuffle = params.pop_bool("shuffle", True)
         num_epochs = params.pop_int("num_epochs", 20)
-        cuda_device = parse_cuda_device(params.pop("cuda_device", -1))
+        cuda_device = parse_cuda_device(params.pop("cuda_device", [0,1]))
+        # print('[info]cuda_device in metatrainer is:{}'.format(cuda_device))
+
+
         grad_norm = params.pop_float("grad_norm", None)
         grad_clipping = params.pop_float("grad_clipping", None)
         lr_scheduler_params = params.pop("learning_rate_scheduler", None)
@@ -550,7 +675,6 @@ class MetaTrainer(Trainer):
             # Moving model to GPU here so that the optimizer state gets constructed on
             # the right device.
             model = model.cuda(model_device)
-
         parameters = [[n, p] for n, p in model.named_parameters() if p.requires_grad]
         optimizer = Optimizer.from_params(parameters, params.pop("optimizer"))
         if "moving_average" in params:
@@ -589,6 +713,8 @@ class MetaTrainer(Trainer):
         should_log_parameter_statistics = params.pop_bool("should_log_parameter_statistics", True)
         should_log_learning_rate = params.pop_bool("should_log_learning_rate", False)
         log_batch_size_period = params.pop_int("log_batch_size_period", None)
+        print('[info] cuda_device in metatrainer.from_param is:{}'.format(cuda_device))
+
 
         params.assert_empty(cls.__name__)
         return cls(model, optimizer, iterator,
@@ -611,4 +737,9 @@ class MetaTrainer(Trainer):
                    should_log_parameter_statistics=should_log_parameter_statistics,
                    should_log_learning_rate=should_log_learning_rate,
                    log_batch_size_period=log_batch_size_period,
-                   moving_average=moving_average)
+                   moving_average=moving_average,
+                   # distributed=distributed,
+                   # rank=local_rank,
+                   # world_size=world_size,
+                   # num_gradient_accumulation_steps=num_gradient_accumulation_steps,
+                   )

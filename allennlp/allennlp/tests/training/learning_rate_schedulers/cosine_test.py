@@ -1,13 +1,11 @@
-from copy import deepcopy
 from typing import Dict, Any
 
 import torch
 
-from allennlp.common import Params
-from allennlp.common.checks import ConfigurationError
+from allennlp.training.optimizers import Optimizer
 from allennlp.common.testing import AllenNlpTestCase
 from allennlp.training.learning_rate_schedulers import LearningRateScheduler
-from allennlp.training.optimizers import Optimizer
+from allennlp.common.params import Params
 
 
 class CosineWithRestartsTest(AllenNlpTestCase):
@@ -95,15 +93,13 @@ class CosineWithRestartsTest(AllenNlpTestCase):
 
     def _get_optimizer(self, lr: float = 1.0):
         return Optimizer.from_params(
-            model_parameters=self.model.named_parameters(), params=Params({"type": "sgd", "lr": lr})
+            self.model.named_parameters(), Params({"type": "sgd", "lr": lr})
         )
 
     def test_from_params(self):
-        """Make sure `from_params` initializes an instance properly."""
+        """Make sure ``from_params`` initializes an instance properly."""
         optim = self._get_optimizer()
-        sched = LearningRateScheduler.from_params(
-            optimizer=optim, params=Params({"type": "cosine", "t_initial": 5})
-        )
+        sched = LearningRateScheduler.from_params(optim, Params({"type": "cosine", "t_initial": 5}))
 
         assert sched.t_initial == 5
         assert sched.last_epoch == -1
@@ -111,21 +107,19 @@ class CosineWithRestartsTest(AllenNlpTestCase):
         # Learning should be unchanged after initializing scheduler.
         assert optim.param_groups[0]["lr"] == 1.0
 
-        with self.assertRaises(ConfigurationError):
+        with self.assertRaises(TypeError):
             # t_initial is required.
-            LearningRateScheduler.from_params(optimizer=optim, params=Params({"type": "cosine"}))
+            LearningRateScheduler.from_params(optim, Params({"type": "cosine"}))
 
     def test_schedules(self):
         """Make sure the math is correct."""
         for epochs, params, lr_checks, _ in self.cosine_schedule_cases:
             optimizer = self._get_optimizer()
             params["type"] = "cosine"
-            scheduler = LearningRateScheduler.from_params(
-                optimizer=optimizer, params=Params(params)
-            )
+            scheduler = LearningRateScheduler.from_params(optimizer, Params(params))
             lrs = [optimizer.param_groups[0]["lr"]]
-            for _ in range(epochs):
-                scheduler.step()
+            for epoch in range(epochs):
+                scheduler.step(epoch)
                 lrs.append(optimizer.param_groups[0]["lr"])
 
             for it, lr in lr_checks:
@@ -144,9 +138,7 @@ class CosineWithRestartsTest(AllenNlpTestCase):
             a checkpoint.
             """
             params["type"] = "cosine"
-            scheduler = LearningRateScheduler.from_params(
-                optimizer=optimizer, params=Params(deepcopy(params))
-            )
+            scheduler = LearningRateScheduler.from_params(optimizer, Params(params))
             if state_dict is not None:
                 scheduler.load_state_dict(state_dict)
             return scheduler
@@ -163,7 +155,7 @@ class CosineWithRestartsTest(AllenNlpTestCase):
                     scheduler = init_and_restore_scheduler(optimizer, params, state_dict=state)
 
                 # Take step and record learning rate.
-                scheduler.step(1)
+                scheduler.step(1, epoch)
                 lrs.append(optimizer.param_groups[0]["lr"])
 
                 # Save state again.

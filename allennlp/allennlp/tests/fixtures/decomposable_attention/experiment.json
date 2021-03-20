@@ -29,7 +29,7 @@
       "hidden_dims": 2,
       "activations": "relu"
     },
-    "matrix_attention": {"type": "dot_product"},
+    "similarity_function": {"type": "dot_product"},
     "compare_feedforward": {
       "input_dim": 4,
       "num_layers": 1,
@@ -43,12 +43,11 @@
       "activations": "linear"
     }
   },
-  "data_loader": {
-    "batch_sampler": {
-      "type": "bucket",
-      "padding_noise": 0.0,
-      "batch_size": 40
-    }
+  "iterator": {
+    "type": "bucket",
+    "sorting_keys": [["premise", "num_tokens"], ["hypothesis", "num_tokens"]],
+    "padding_noise": 0.0,
+    "batch_size": 40
   },
   "trainer": {
     "num_epochs": 1,

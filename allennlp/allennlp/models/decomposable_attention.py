@@ -3,12 +3,12 @@ from typing import Dict, Optional, List, Any
 import torch
 
 from allennlp.common.checks import check_dimensions_match
-from allennlp.data import TextFieldTensors, Vocabulary
+from allennlp.data import Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules import FeedForward
-from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder
-from allennlp.modules.matrix_attention.matrix_attention import MatrixAttention
-from allennlp.nn import InitializerApplicator
+from allennlp.modules import Seq2SeqEncoder, SimilarityFunction, TimeDistributed, TextFieldEmbedder
+from allennlp.modules.matrix_attention.legacy_matrix_attention import LegacyMatrixAttention
+from allennlp.nn import InitializerApplicator, RegularizerApplicator
 from allennlp.nn.util import get_text_field_mask, masked_softmax, weighted_sum
 from allennlp.training.metrics import CategoricalAccuracy
 
@@ -16,47 +16,49 @@ from allennlp.training.metrics import CategoricalAccuracy
 @Model.register("decomposable_attention")
 class DecomposableAttention(Model):
     """
-    This `Model` implements the Decomposable Attention model described in [A Decomposable
-    Attention Model for Natural Language Inference](
-    https://www.semanticscholar.org/paper/A-Decomposable-Attention-Model-for-Natural-Languag-Parikh-T%C3%A4ckstr%C3%B6m/07a9478e87a8304fc3267fa16e83e9f3bbd98b27)
+    This ``Model`` implements the Decomposable Attention model described in `"A Decomposable
+    Attention Model for Natural Language Inference"
+    <https://www.semanticscholar.org/paper/A-Decomposable-Attention-Model-for-Natural-Languag-Parikh-T%C3%A4ckstr%C3%B6m/07a9478e87a8304fc3267fa16e83e9f3bbd98b27>`_
     by Parikh et al., 2016, with some optional enhancements before the decomposable attention
     actually happens.  Parikh's original model allowed for computing an "intra-sentence" attention
     before doing the decomposable entailment step.  We generalize this to any
-    [`Seq2SeqEncoder`](../modules/seq2seq_encoders/seq2seq_encoder.md) that can be applied to
-    the premise and/or the hypothesis before computing entailment.
+    :class:`Seq2SeqEncoder` that can be applied to the premise and/or the hypothesis before
+    computing entailment.
 
     The basic outline of this model is to get an embedded representation of each word in the
     premise and hypothesis, align words between the two, compare the aligned phrases, and make a
     final entailment decision based on this aggregated comparison.  Each step in this process uses
     a feedforward network to modify the representation.
 
-    # Parameters
-
-    vocab : `Vocabulary`
-    text_field_embedder : `TextFieldEmbedder`
-        Used to embed the `premise` and `hypothesis` `TextFields` we get as input to the
+    Parameters
+    ----------
+    vocab : ``Vocabulary``
+    text_field_embedder : ``TextFieldEmbedder``
+        Used to embed the ``premise`` and ``hypothesis`` ``TextFields`` we get as input to the
         model.
-    attend_feedforward : `FeedForward`
+    attend_feedforward : ``FeedForward``
         This feedforward network is applied to the encoded sentence representations before the
         similarity matrix is computed between words in the premise and words in the hypothesis.
-    matrix_attention : `MatrixAttention`
-        This is the attention function used when computing the similarity matrix between words in
+    similarity_function : ``SimilarityFunction``
+        This is the similarity function used when computing the similarity matrix between words in
         the premise and words in the hypothesis.
-    compare_feedforward : `FeedForward`
+    compare_feedforward : ``FeedForward``
         This feedforward network is applied to the aligned premise and hypothesis representations,
         individually.
-    aggregate_feedforward : `FeedForward`
+    aggregate_feedforward : ``FeedForward``
         This final feedforward network is applied to the concatenated, summed result of the
-        `compare_feedforward` network, and its output is used as the entailment class logits.
-    premise_encoder : `Seq2SeqEncoder`, optional (default=`None`)
-        After embedding the premise, we can optionally apply an encoder.  If this is `None`, we
+        ``compare_feedforward`` network, and its output is used as the entailment class logits.
+    premise_encoder : ``Seq2SeqEncoder``, optional (default=``None``)
+        After embedding the premise, we can optionally apply an encoder.  If this is ``None``, we
         will do nothing.
-    hypothesis_encoder : `Seq2SeqEncoder`, optional (default=`None`)
-        After embedding the hypothesis, we can optionally apply an encoder.  If this is `None`,
-        we will use the `premise_encoder` for the encoding (doing nothing if `premise_encoder`
-        is also `None`).
-    initializer : `InitializerApplicator`, optional (default=`InitializerApplicator()`)
+    hypothesis_encoder : ``Seq2SeqEncoder``, optional (default=``None``)
+        After embedding the hypothesis, we can optionally apply an encoder.  If this is ``None``,
+        we will use the ``premise_encoder`` for the encoding (doing nothing if ``premise_encoder``
+        is also ``None``).
+    initializer : ``InitializerApplicator``, optional (default=``InitializerApplicator()``)
         Used to initialize the model parameters.
+    regularizer : ``RegularizerApplicator``, optional (default=``None``)
+        If provided, will be used to calculate the regularization penalty during training.
     """
 
     def __init__(
@@ -64,19 +66,19 @@ class DecomposableAttention(Model):
         vocab: Vocabulary,
         text_field_embedder: TextFieldEmbedder,
         attend_feedforward: FeedForward,
-        matrix_attention: MatrixAttention,
+        similarity_function: SimilarityFunction,
         compare_feedforward: FeedForward,
         aggregate_feedforward: FeedForward,
         premise_encoder: Optional[Seq2SeqEncoder] = None,
         hypothesis_encoder: Optional[Seq2SeqEncoder] = None,
         initializer: InitializerApplicator = InitializerApplicator(),
-        **kwargs,
+        regularizer: Optional[RegularizerApplicator] = None,
     ) -> None:
-        super().__init__(vocab, **kwargs)
+        super().__init__(vocab, regularizer)
 
         self._text_field_embedder = text_field_embedder
         self._attend_feedforward = TimeDistributed(attend_feedforward)
-        self._matrix_attention = matrix_attention
+        self._matrix_attention = LegacyMatrixAttention(similarity_function)
         self._compare_feedforward = TimeDistributed(compare_feedforward)
         self._aggregate_feedforward = aggregate_feedforward
         self._premise_encoder = premise_encoder
@@ -104,41 +106,41 @@ class DecomposableAttention(Model):
 
     def forward(  # type: ignore
         self,
-        premise: TextFieldTensors,
-        hypothesis: TextFieldTensors,
+        premise: Dict[str, torch.LongTensor],
+        hypothesis: Dict[str, torch.LongTensor],
         label: torch.IntTensor = None,
         metadata: List[Dict[str, Any]] = None,
     ) -> Dict[str, torch.Tensor]:
 
         """
-        # Parameters
-
-        premise : TextFieldTensors
-            From a `TextField`
-        hypothesis : TextFieldTensors
-            From a `TextField`
+        Parameters
+        ----------
+        premise : Dict[str, torch.LongTensor]
+            From a ``TextField``
+        hypothesis : Dict[str, torch.LongTensor]
+            From a ``TextField``
         label : torch.IntTensor, optional, (default = None)
-            From a `LabelField`
-        metadata : `List[Dict[str, Any]]`, optional, (default = None)
+            From a ``LabelField``
+        metadata : ``List[Dict[str, Any]]``, optional, (default = None)
             Metadata containing the original tokenization of the premise and
             hypothesis with 'premise_tokens' and 'hypothesis_tokens' keys respectively.
-        # Returns
-
+        Returns
+        -------
         An output dictionary consisting of:
 
         label_logits : torch.FloatTensor
-            A tensor of shape `(batch_size, num_labels)` representing unnormalised log
+            A tensor of shape ``(batch_size, num_labels)`` representing unnormalised log
             probabilities of the entailment label.
         label_probs : torch.FloatTensor
-            A tensor of shape `(batch_size, num_labels)` representing probabilities of the
+            A tensor of shape ``(batch_size, num_labels)`` representing probabilities of the
             entailment label.
         loss : torch.FloatTensor, optional
             A scalar loss to be optimised.
         """
         embedded_premise = self._text_field_embedder(premise)
         embedded_hypothesis = self._text_field_embedder(hypothesis)
-        premise_mask = get_text_field_mask(premise)
-        hypothesis_mask = get_text_field_mask(hypothesis)
+        premise_mask = get_text_field_mask(premise).float()
+        hypothesis_mask = get_text_field_mask(hypothesis).float()
 
         if self._premise_encoder:
             embedded_premise = self._premise_encoder(embedded_premise, premise_mask)

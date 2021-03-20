@@ -36,8 +36,8 @@ class TestRegularizers(AllenNlpTestCase):
         assert value.data.numpy() == 65.0
 
     def test_from_params(self):
-        params = Params({"regexes": [("conv", "l1"), ("linear", {"type": "l2", "alpha": 10})]})
-        regularizer_applicator = RegularizerApplicator.from_params(params)
+        params = Params({"regularizers": [("conv", "l1"), ("linear", {"type": "l2", "alpha": 10})]})
+        regularizer_applicator = RegularizerApplicator.from_params(params.pop("regularizers"))
         regularizers = regularizer_applicator._regularizers
 
         conv = linear = None
