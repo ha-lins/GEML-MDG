@@ -1,0 +1,819 @@
+2020-04-08 11:43:15,126 - INFO - allennlp.common.params - random_seed = 13370
+2020-04-08 11:43:15,126 - INFO - allennlp.common.params - numpy_seed = 1337
+2020-04-08 11:43:15,126 - INFO - allennlp.common.params - pytorch_seed = 133
+2020-04-08 11:43:16,135 - INFO - allennlp.common.checks - Pytorch version: 1.4.0
+2020-04-08 11:43:16,136 - INFO - allennlp.common.params - evaluate_on_test = False
+2020-04-08 11:43:16,136 - INFO - allennlp.common.params - validation_dataset_reader = None
+2020-04-08 11:43:16,136 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.dataset_readers.dataset_reader.DatasetReader'> from params {'token_indexers': {'tokens': {'token_min_padding_length': 4, 'type': 'single_id'}}, 'tokenizer': {'word_splitter': {'type': 'just_spaces'}}, 'type': 'mds_reader'} and extras set()
+2020-04-08 11:43:16,137 - INFO - allennlp.common.params - dataset_reader.type = mds_reader
+2020-04-08 11:43:16,137 - INFO - allennlp.common.from_params - instantiating class <class 'basef1before.TextClassificationTxtReader'> from params {'token_indexers': {'tokens': {'token_min_padding_length': 4, 'type': 'single_id'}}, 'tokenizer': {'word_splitter': {'type': 'just_spaces'}}} and extras set()
+2020-04-08 11:43:16,138 - WARNING - allennlp.data.tokenizers.tokenizer - Converting old WordTokenizer params - <allennlp.common.params.Params object at 0x7f924a4763d0> 
+to new params <allennlp.common.params.Params object at 0x7f924a476550>.
+2020-04-08 11:43:16,138 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.tokenizers.tokenizer.Tokenizer'> from params {'type': 'just_spaces'} and extras set()
+2020-04-08 11:43:16,138 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.type = just_spaces
+2020-04-08 11:43:16,138 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.tokenizers.whitespace_tokenizer.WhitespaceTokenizer'> from params {} and extras set()
+2020-04-08 11:43:16,156 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.token_indexers.token_indexer.TokenIndexer'> from params {'token_min_padding_length': 4, 'type': 'single_id'} and extras set()
+2020-04-08 11:43:16,165 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.type = single_id
+2020-04-08 11:43:16,166 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.token_indexers.single_id_token_indexer.SingleIdTokenIndexer'> from params {'token_min_padding_length': 4} and extras set()
+2020-04-08 11:43:16,166 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.namespace = tokens
+2020-04-08 11:43:16,167 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.lowercase_tokens = False
+2020-04-08 11:43:16,167 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.start_tokens = None
+2020-04-08 11:43:16,167 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.end_tokens = None
+2020-04-08 11:43:16,167 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.token_min_padding_length = 4
+2020-04-08 11:43:16,168 - INFO - allennlp.common.params - dataset_reader.model = None
+2020-04-08 11:43:16,168 - INFO - allennlp.common.params - train_data_path = process/data_0305/train_0_0.1.pk
+2020-04-08 11:43:16,168 - INFO - allennlp.training.util - Reading training data from process/data_0305/train_0_0.1.pk
+2020-04-08 11:43:16,212 - INFO - allennlp.common.params - validation_data_path = process/data_0305/valid_0.pk
+2020-04-08 11:43:16,212 - INFO - allennlp.training.util - Reading validation data from process/data_0305/valid_0.pk
+2020-04-08 11:43:16,328 - INFO - allennlp.common.params - test_data_path = None
+2020-04-08 11:43:16,328 - INFO - allennlp.training.trainer_pieces - From dataset instances, train, validation will be considered for vocabulary creation.
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.type = None
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.extend = False
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.directory_path = None
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.padding_token = @@PADDING@@
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.oov_token = @@UNKNOWN@@
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.min_count = None
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.max_vocab_size = None
+2020-04-08 11:43:16,329 - INFO - allennlp.common.params - vocabulary.non_padded_namespaces = ('*tags', '*labels')
+2020-04-08 11:43:16,330 - INFO - allennlp.common.params - vocabulary.pretrained_files = {}
+2020-04-08 11:43:16,330 - INFO - allennlp.common.params - vocabulary.min_pretrained_embeddings = None
+2020-04-08 11:43:16,330 - INFO - allennlp.common.params - vocabulary.only_include_pretrained_words = False
+2020-04-08 11:43:16,330 - INFO - allennlp.common.params - vocabulary.tokens_to_add = None
+2020-04-08 11:43:16,330 - INFO - allennlp.data.vocabulary - Fitting token dictionary from dataset.
+2020-04-08 11:43:16,386 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.models.model.Model'> from params {'dropout': 0.5, 'seq2vec_encoder': {'embedding_dim': 300, 'ngram_filter_sizes': [2, 3, 4], 'num_filters': 128, 'type': 'cnn'}, 'text_field_embedder': {'token_embedders': {'tokens': {'embedding_dim': 300, 'pretrained_file': 'process/fd_embedding.txt', 'trainable': True, 'type': 'embedding'}}}, 'type': 'basic_classifier_f1'} and extras {'vocab'}
+2020-04-08 11:43:16,386 - INFO - allennlp.common.params - model.type = basic_classifier_f1
+2020-04-08 11:43:16,386 - INFO - allennlp.common.from_params - instantiating class <class 'basef1before.BasicClassifierF1'> from params {'dropout': 0.5, 'seq2vec_encoder': {'embedding_dim': 300, 'ngram_filter_sizes': [2, 3, 4], 'num_filters': 128, 'type': 'cnn'}, 'text_field_embedder': {'token_embedders': {'tokens': {'embedding_dim': 300, 'pretrained_file': 'process/fd_embedding.txt', 'trainable': True, 'type': 'embedding'}}}} and extras {'vocab'}
+2020-04-08 11:43:16,388 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.modules.text_field_embedders.text_field_embedder.TextFieldEmbedder'> from params {'token_embedders': {'tokens': {'embedding_dim': 300, 'pretrained_file': 'process/fd_embedding.txt', 'trainable': True, 'type': 'embedding'}}} and extras {'vocab'}
+2020-04-08 11:43:16,388 - INFO - allennlp.common.params - model.text_field_embedder.type = basic
+2020-04-08 11:43:16,388 - INFO - allennlp.common.params - model.text_field_embedder.embedder_to_indexer_map = None
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.allow_unmatched_keys = False
+2020-04-08 11:43:16,389 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.modules.token_embedders.token_embedder.TokenEmbedder'> from params {'embedding_dim': 300, 'pretrained_file': 'process/fd_embedding.txt', 'trainable': True, 'type': 'embedding'} and extras {'vocab'}
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.type = embedding
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.num_embeddings = None
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.vocab_namespace = tokens
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.embedding_dim = 300
+2020-04-08 11:43:16,389 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.pretrained_file = process/fd_embedding.txt
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.projection_dim = None
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.trainable = True
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.padding_index = None
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.max_norm = None
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.norm_type = 2.0
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.scale_grad_by_freq = False
+2020-04-08 11:43:16,390 - INFO - allennlp.common.params - model.text_field_embedder.token_embedders.tokens.sparse = False
+2020-04-08 11:43:16,390 - INFO - allennlp.modules.token_embedders.embedding - Reading pretrained embeddings from file
+2020-04-08 11:43:16,797 - INFO - allennlp.modules.token_embedders.embedding - Initializing pre-trained embedding layer
+2020-04-08 11:43:16,841 - INFO - allennlp.modules.token_embedders.embedding - Pretrained embeddings were found for 596 out of 611 tokens
+2020-04-08 11:43:16,842 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.modules.seq2vec_encoders.seq2vec_encoder.Seq2VecEncoder'> from params {'embedding_dim': 300, 'ngram_filter_sizes': [2, 3, 4], 'num_filters': 128, 'type': 'cnn'} and extras {'vocab'}
+2020-04-08 11:43:16,842 - INFO - allennlp.common.params - model.seq2vec_encoder.type = cnn
+2020-04-08 11:43:16,843 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.modules.seq2vec_encoders.cnn_encoder.CnnEncoder'> from params {'embedding_dim': 300, 'ngram_filter_sizes': [2, 3, 4], 'num_filters': 128} and extras {'vocab'}
+2020-04-08 11:43:16,843 - INFO - allennlp.common.params - model.seq2vec_encoder.embedding_dim = 300
+2020-04-08 11:43:16,847 - INFO - allennlp.common.params - model.seq2vec_encoder.num_filters = 128
+2020-04-08 11:43:16,848 - INFO - allennlp.common.params - model.seq2vec_encoder.ngram_filter_sizes = [2, 3, 4]
+2020-04-08 11:43:16,848 - INFO - allennlp.common.params - model.seq2vec_encoder.output_dim = None
+2020-04-08 11:43:16,859 - INFO - allennlp.common.params - model.dropout = 0.5
+2020-04-08 11:43:16,859 - INFO - allennlp.common.params - model.num_labels = 77
+2020-04-08 11:43:16,860 - INFO - allennlp.common.params - model.model_name = None
+2020-04-08 11:43:16,860 - INFO - allennlp.common.params - model.label_namespace = labels
+2020-04-08 11:43:16,880 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.iterators.data_iterator.DataIterator'> from params {'batch_size': 32, 'type': 'basic'} and extras set()
+2020-04-08 11:43:16,881 - INFO - allennlp.common.params - iterator.type = basic
+2020-04-08 11:43:16,881 - INFO - allennlp.common.from_params - instantiating class <class 'allennlp.data.iterators.basic_iterator.BasicIterator'> from params {'batch_size': 32} and extras set()
+2020-04-08 11:43:16,881 - INFO - allennlp.common.params - iterator.batch_size = 32
+2020-04-08 11:43:16,881 - INFO - allennlp.common.params - iterator.instances_per_epoch = None
+2020-04-08 11:43:16,881 - INFO - allennlp.common.params - iterator.max_instances_in_memory = None
+2020-04-08 11:43:16,882 - INFO - allennlp.common.params - iterator.cache_instances = False
+2020-04-08 11:43:16,882 - INFO - allennlp.common.params - iterator.track_epoch = False
+2020-04-08 11:43:16,882 - INFO - allennlp.common.params - iterator.maximum_samples_per_batch = None
+2020-04-08 11:43:16,882 - INFO - allennlp.common.params - validation_iterator = None
+2020-04-08 11:43:16,882 - INFO - allennlp.common.params - trainer.no_grad = ()
+2020-04-08 11:43:16,882 - INFO - allennlp.training.trainer_pieces - Following parameters are Frozen  (without gradient):
+2020-04-08 11:43:16,882 - INFO - allennlp.training.trainer_pieces - Following parameters are Tunable (with gradient):
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - text_field_embedder.token_embedder_tokens.weight
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_0.weight
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_0.bias
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_1.weight
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_1.bias
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_2.weight
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - seq2vec_encoder.conv_layer_2.bias
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - classification_layer.weight
+2020-04-08 11:43:16,883 - INFO - allennlp.training.trainer_pieces - classification_layer.bias
+2020-04-08 11:43:16,883 - INFO - allennlp.common.params - trainer.patience = None
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.validation_metric = +f1
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.shuffle = True
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.num_epochs = 20
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.cuda_device = 0
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.grad_norm = 10
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.grad_clipping = None
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.learning_rate_scheduler = None
+2020-04-08 11:43:16,884 - INFO - allennlp.common.params - trainer.momentum_scheduler = None
+2020-04-08 11:43:38,897 - INFO - allennlp.common.params - trainer.optimizer.type = adam
+2020-04-08 11:43:38,915 - INFO - allennlp.common.params - trainer.optimizer.parameter_groups = None
+2020-04-08 11:43:38,916 - INFO - allennlp.training.optimizers - Number of trainable parameters: 558929
+2020-04-08 11:43:38,917 - INFO - allennlp.common.params - trainer.optimizer.infer_type_and_cast = True
+2020-04-08 11:43:38,920 - INFO - allennlp.common.params - Converting Params object to dict; logging of default values will not occur when dictionary parameters are used subsequently.
+2020-04-08 11:43:38,925 - INFO - allennlp.common.params - CURRENTLY DEFINED PARAMETERS: 
+2020-04-08 11:43:38,925 - INFO - allennlp.common.params - trainer.optimizer.lr = 0.001
+2020-04-08 11:43:38,926 - INFO - allennlp.common.params - trainer.num_serialized_models_to_keep = 20
+2020-04-08 11:43:38,926 - INFO - allennlp.common.params - trainer.keep_serialized_model_every_num_seconds = None
+2020-04-08 11:43:38,927 - INFO - allennlp.common.params - trainer.model_save_interval = None
+2020-04-08 11:43:38,927 - INFO - allennlp.common.params - trainer.summary_interval = 100
+2020-04-08 11:43:38,930 - INFO - allennlp.common.params - trainer.histogram_interval = None
+2020-04-08 11:43:38,931 - INFO - allennlp.common.params - trainer.should_log_parameter_statistics = True
+2020-04-08 11:43:38,932 - INFO - allennlp.common.params - trainer.should_log_learning_rate = False
+2020-04-08 11:43:38,936 - INFO - allennlp.common.params - trainer.log_batch_size_period = None
+2020-04-08 11:43:38,939 - INFO - allennlp.common.params - trainer.distributed = False
+2020-04-08 11:43:38,940 - INFO - allennlp.common.params - trainer.world_size = 1
+2020-04-08 11:43:38,940 - INFO - allennlp.common.params - trainer.num_gradient_accumulation_steps = 1
+2020-04-08 11:43:38,941 - WARNING - allennlp.training.trainer - You provided a validation dataset but patience was set to None, meaning that early stopping is disabled
+2020-04-08 11:43:38,961 - INFO - allennlp.training.trainer - Beginning training.
+2020-04-08 11:43:38,962 - INFO - allennlp.training.trainer - Epoch 0/19
+2020-04-08 11:43:38,963 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2329.548
+2020-04-08 11:43:39,681 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:39,681 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:39,681 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:39,681 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:39,681 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6180
+2020-04-08 11:43:39,682 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:39,682 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:39,682 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:39,683 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:40,284 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:40,779 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:40,780 - INFO - allennlp.training.tensorboard_writer - df1             |     0.160  |     0.539
+2020-04-08 11:43:40,781 - INFO - allennlp.training.tensorboard_writer - facc            |     0.041  |     0.056
+2020-04-08 11:43:40,796 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:40,797 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:40,798 - INFO - allennlp.training.tensorboard_writer - drec            |     0.857  |     1.000
+2020-04-08 11:43:40,799 - INFO - allennlp.training.tensorboard_writer - loss            |     0.742  |     0.661
+2020-04-08 11:43:40,800 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:40,801 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:40,802 - INFO - allennlp.training.tensorboard_writer - f1              |     0.036  |     0.050
+2020-04-08 11:43:40,803 - INFO - allennlp.training.tensorboard_writer - acc             |     0.019  |     0.029
+2020-04-08 11:43:40,804 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:40,805 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:40,805 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2329.548  |       N/A
+2020-04-08 11:43:40,807 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.088  |     0.369
+2020-04-08 11:43:40,810 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6180.000  |       N/A
+2020-04-08 11:43:40,815 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:40,818 - INFO - allennlp.training.tensorboard_writer - rec             |     0.516  |     0.192
+2020-04-08 11:43:40,850 - INFO - allennlp.training.checkpointer - Best validation performance so far. Copying weights to '/data3/linshuai/before_mds/allennlp/allennlp/save_gcn/gcn4_mds_cnn2/best.th'.
+2020-04-08 11:43:40,872 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.909273
+2020-04-08 11:43:40,872 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:36
+2020-04-08 11:43:40,872 - INFO - allennlp.training.trainer - Epoch 1/19
+2020-04-08 11:43:40,872 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.172
+2020-04-08 11:43:41,817 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:41,817 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:41,818 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:41,819 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:41,847 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:42,086 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:42,087 - INFO - allennlp.training.tensorboard_writer - df1             |     0.275  |     0.554
+2020-04-08 11:43:42,088 - INFO - allennlp.training.tensorboard_writer - facc            |     0.079  |     0.109
+2020-04-08 11:43:42,089 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:42,090 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:42,090 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:42,091 - INFO - allennlp.training.tensorboard_writer - loss            |     0.657  |     0.591
+2020-04-08 11:43:42,092 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:42,093 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:42,094 - INFO - allennlp.training.tensorboard_writer - f1              |     0.089  |     0.064
+2020-04-08 11:43:42,095 - INFO - allennlp.training.tensorboard_writer - acc             |     0.049  |     0.058
+2020-04-08 11:43:42,096 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:42,096 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:42,097 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.172  |       N/A
+2020-04-08 11:43:42,098 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.159  |     0.383
+2020-04-08 11:43:42,099 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:42,101 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:42,102 - INFO - allennlp.training.tensorboard_writer - rec             |     0.516  |     0.072
+2020-04-08 11:43:42,118 - INFO - allennlp.training.checkpointer - Best validation performance so far. Copying weights to '/data3/linshuai/before_mds/allennlp/allennlp/save_gcn/gcn4_mds_cnn2/best.th'.
+2020-04-08 11:43:42,124 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.251949
+2020-04-08 11:43:42,125 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:28
+2020-04-08 11:43:42,126 - INFO - allennlp.training.trainer - Epoch 2/19
+2020-04-08 11:43:42,126 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:43,096 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:43,096 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:43,096 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:43,096 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:43,096 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:43,097 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:43,097 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:43,097 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:43,098 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:43,117 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:43,341 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:43,342 - INFO - allennlp.training.tensorboard_writer - df1             |     0.350  |     0.554
+2020-04-08 11:43:43,343 - INFO - allennlp.training.tensorboard_writer - facc            |     0.157  |     0.081
+2020-04-08 11:43:43,343 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:43,344 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:43,344 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:43,345 - INFO - allennlp.training.tensorboard_writer - loss            |     0.586  |     0.523
+2020-04-08 11:43:43,345 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:43,346 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:43,346 - INFO - allennlp.training.tensorboard_writer - f1              |     0.170  |     0.034
+2020-04-08 11:43:43,347 - INFO - allennlp.training.tensorboard_writer - acc             |     0.104  |     0.036
+2020-04-08 11:43:43,357 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:43,359 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:43,360 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:43,364 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.212  |     0.383
+2020-04-08 11:43:43,368 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:43,374 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:43,376 - INFO - allennlp.training.tensorboard_writer - rec             |     0.452  |     0.032
+2020-04-08 11:43:43,441 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.315769
+2020-04-08 11:43:43,460 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:25
+2020-04-08 11:43:43,463 - INFO - allennlp.training.trainer - Epoch 3/19
+2020-04-08 11:43:43,466 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:44,196 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:44,197 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:44,197 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:44,198 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:44,198 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:44,198 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:44,199 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:44,199 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:44,201 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:44,249 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:44,473 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:44,474 - INFO - allennlp.training.tensorboard_writer - df1             |     0.424  |     0.554
+2020-04-08 11:43:44,474 - INFO - allennlp.training.tensorboard_writer - facc            |     0.214  |     0.056
+2020-04-08 11:43:44,475 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:44,476 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:44,477 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:44,478 - INFO - allennlp.training.tensorboard_writer - loss            |     0.510  |     0.457
+2020-04-08 11:43:44,478 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:44,479 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:44,480 - INFO - allennlp.training.tensorboard_writer - f1              |     0.209  |     0.026
+2020-04-08 11:43:44,481 - INFO - allennlp.training.tensorboard_writer - acc             |     0.143  |     0.028
+2020-04-08 11:43:44,482 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:44,482 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:44,483 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:44,484 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.269  |     0.383
+2020-04-08 11:43:44,485 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:44,485 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:44,486 - INFO - allennlp.training.tensorboard_writer - rec             |     0.387  |     0.024
+2020-04-08 11:43:44,507 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.043818
+2020-04-08 11:43:44,511 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:22
+2020-04-08 11:43:44,511 - INFO - allennlp.training.trainer - Epoch 4/19
+2020-04-08 11:43:44,511 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:45,372 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:45,372 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:45,372 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:45,372 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:45,373 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:45,373 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:45,373 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:45,373 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:45,374 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:45,478 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:45,579 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:45,580 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:45,581 - INFO - allennlp.training.tensorboard_writer - facc            |     0.333  |     0.056
+2020-04-08 11:43:45,582 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:45,582 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:45,583 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:45,584 - INFO - allennlp.training.tensorboard_writer - loss            |     0.443  |     0.395
+2020-04-08 11:43:45,584 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:45,584 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:45,585 - INFO - allennlp.training.tensorboard_writer - f1              |     0.329  |     0.026
+2020-04-08 11:43:45,586 - INFO - allennlp.training.tensorboard_writer - acc             |     0.259  |     0.028
+2020-04-08 11:43:45,586 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:45,586 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:45,587 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:45,587 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:45,588 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:45,593 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:45,594 - INFO - allennlp.training.tensorboard_writer - rec             |     0.452  |     0.024
+2020-04-08 11:43:45,607 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.095321
+2020-04-08 11:43:45,623 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:19
+2020-04-08 11:43:45,623 - INFO - allennlp.training.trainer - Epoch 5/19
+2020-04-08 11:43:45,624 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:46,252 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:46,253 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:46,254 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:46,254 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:46,255 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:46,255 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:46,255 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:46,256 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:46,258 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:46,320 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:46,757 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:46,776 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:46,778 - INFO - allennlp.training.tensorboard_writer - facc            |     0.316  |     0.056
+2020-04-08 11:43:46,779 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:46,785 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:46,786 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:46,787 - INFO - allennlp.training.tensorboard_writer - loss            |     0.380  |     0.341
+2020-04-08 11:43:46,788 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:46,789 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:46,790 - INFO - allennlp.training.tensorboard_writer - f1              |     0.290  |     0.026
+2020-04-08 11:43:46,791 - INFO - allennlp.training.tensorboard_writer - acc             |     0.263  |     0.028
+2020-04-08 11:43:46,792 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:46,793 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:46,794 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:46,795 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:46,796 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:46,804 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:46,805 - INFO - allennlp.training.tensorboard_writer - rec             |     0.323  |     0.024
+2020-04-08 11:43:46,838 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.214194
+2020-04-08 11:43:46,859 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:18
+2020-04-08 11:43:46,869 - INFO - allennlp.training.trainer - Epoch 6/19
+2020-04-08 11:43:46,871 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:47,772 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:47,773 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:47,774 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:47,774 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:47,774 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:47,775 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:47,775 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:47,775 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:47,778 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:47,856 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:47,966 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:47,967 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:47,968 - INFO - allennlp.training.tensorboard_writer - facc            |     0.333  |     0.056
+2020-04-08 11:43:47,969 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:47,969 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:47,970 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:47,971 - INFO - allennlp.training.tensorboard_writer - loss            |     0.315  |     0.299
+2020-04-08 11:43:47,972 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:47,973 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:47,973 - INFO - allennlp.training.tensorboard_writer - f1              |     0.239  |     0.026
+2020-04-08 11:43:47,974 - INFO - allennlp.training.tensorboard_writer - acc             |     0.222  |     0.028
+2020-04-08 11:43:47,975 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:47,976 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:47,977 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:47,978 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:47,979 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:47,979 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:47,980 - INFO - allennlp.training.tensorboard_writer - rec             |     0.258  |     0.024
+2020-04-08 11:43:47,996 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.126800
+2020-04-08 11:43:47,997 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:16
+2020-04-08 11:43:47,997 - INFO - allennlp.training.trainer - Epoch 7/19
+2020-04-08 11:43:47,997 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.376
+2020-04-08 11:43:48,920 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:48,922 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:48,922 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:48,922 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:48,923 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:48,923 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:48,924 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:48,924 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:48,927 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:49,108 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:49,285 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:49,290 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:49,290 - INFO - allennlp.training.tensorboard_writer - facc            |     0.355  |     0.056
+2020-04-08 11:43:49,291 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:49,291 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:49,291 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:49,328 - INFO - allennlp.training.tensorboard_writer - loss            |     0.266  |     0.269
+2020-04-08 11:43:49,329 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:49,329 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:49,330 - INFO - allennlp.training.tensorboard_writer - f1              |     0.258  |     0.026
+2020-04-08 11:43:49,330 - INFO - allennlp.training.tensorboard_writer - acc             |     0.258  |     0.028
+2020-04-08 11:43:49,331 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:49,331 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:49,331 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.376  |       N/A
+2020-04-08 11:43:49,332 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:49,332 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:49,333 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:49,333 - INFO - allennlp.training.tensorboard_writer - rec             |     0.258  |     0.024
+2020-04-08 11:43:49,363 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.366376
+2020-04-08 11:43:49,364 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:15
+2020-04-08 11:43:49,364 - INFO - allennlp.training.trainer - Epoch 8/19
+2020-04-08 11:43:49,364 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.396
+2020-04-08 11:43:50,162 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:50,163 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:50,163 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:50,164 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:50,164 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:50,165 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:50,165 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:50,165 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:50,167 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:50,201 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:50,320 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:50,321 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:50,321 - INFO - allennlp.training.tensorboard_writer - facc            |     0.366  |     0.056
+2020-04-08 11:43:50,323 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:50,324 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:50,324 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:50,325 - INFO - allennlp.training.tensorboard_writer - loss            |     0.228  |     0.251
+2020-04-08 11:43:50,327 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:50,328 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:50,328 - INFO - allennlp.training.tensorboard_writer - f1              |     0.306  |     0.026
+2020-04-08 11:43:50,329 - INFO - allennlp.training.tensorboard_writer - acc             |     0.268  |     0.028
+2020-04-08 11:43:50,329 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:50,331 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:50,332 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.396  |       N/A
+2020-04-08 11:43:50,332 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:50,333 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:50,333 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:50,335 - INFO - allennlp.training.tensorboard_writer - rec             |     0.355  |     0.024
+2020-04-08 11:43:50,368 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.003649
+2020-04-08 11:43:50,368 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:13
+2020-04-08 11:43:50,368 - INFO - allennlp.training.trainer - Epoch 9/19
+2020-04-08 11:43:50,368 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.396
+2020-04-08 11:43:51,161 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:51,161 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:51,161 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:51,161 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:51,161 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:51,162 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:51,162 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:51,162 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:51,163 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:51,201 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:51,335 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:51,336 - INFO - allennlp.training.tensorboard_writer - df1             |     0.438  |     0.554
+2020-04-08 11:43:51,338 - INFO - allennlp.training.tensorboard_writer - facc            |     0.375  |     0.056
+2020-04-08 11:43:51,338 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:51,339 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:51,339 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:51,340 - INFO - allennlp.training.tensorboard_writer - loss            |     0.204  |     0.242
+2020-04-08 11:43:51,340 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:51,341 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:51,341 - INFO - allennlp.training.tensorboard_writer - f1              |     0.286  |     0.026
+2020-04-08 11:43:51,342 - INFO - allennlp.training.tensorboard_writer - acc             |     0.281  |     0.028
+2020-04-08 11:43:51,342 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:51,343 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:51,343 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.396  |       N/A
+2020-04-08 11:43:51,344 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.280  |     0.383
+2020-04-08 11:43:51,344 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:51,345 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:51,345 - INFO - allennlp.training.tensorboard_writer - rec             |     0.290  |     0.024
+2020-04-08 11:43:51,360 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.991445
+2020-04-08 11:43:51,360 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:12
+2020-04-08 11:43:51,360 - INFO - allennlp.training.trainer - Epoch 10/19
+2020-04-08 11:43:51,360 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.396
+2020-04-08 11:43:51,787 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:51,788 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:51,788 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:51,788 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:51,788 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:51,788 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:51,789 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:51,789 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:51,790 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:51,812 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:51,882 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:51,884 - INFO - allennlp.training.tensorboard_writer - df1             |     0.452  |     0.554
+2020-04-08 11:43:51,885 - INFO - allennlp.training.tensorboard_writer - facc            |     0.412  |     0.056
+2020-04-08 11:43:51,886 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:51,886 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:51,887 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:51,888 - INFO - allennlp.training.tensorboard_writer - loss            |     0.176  |     0.239
+2020-04-08 11:43:51,888 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:51,889 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:51,889 - INFO - allennlp.training.tensorboard_writer - f1              |     0.277  |     0.026
+2020-04-08 11:43:51,890 - INFO - allennlp.training.tensorboard_writer - acc             |     0.265  |     0.028
+2020-04-08 11:43:51,890 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:51,891 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:51,891 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.396  |       N/A
+2020-04-08 11:43:51,892 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.292  |     0.383
+2020-04-08 11:43:51,892 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:51,893 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:51,893 - INFO - allennlp.training.tensorboard_writer - rec             |     0.290  |     0.024
+2020-04-08 11:43:51,919 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.558904
+2020-04-08 11:43:51,920 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:10
+2020-04-08 11:43:51,920 - INFO - allennlp.training.trainer - Epoch 11/19
+2020-04-08 11:43:51,920 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.396
+2020-04-08 11:43:52,602 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:52,603 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:52,605 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:52,637 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:52,759 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:52,760 - INFO - allennlp.training.tensorboard_writer - df1             |     0.452  |     0.554
+2020-04-08 11:43:52,776 - INFO - allennlp.training.tensorboard_writer - facc            |     0.308  |     0.056
+2020-04-08 11:43:52,776 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:52,777 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:52,777 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:52,778 - INFO - allennlp.training.tensorboard_writer - loss            |     0.177  |     0.241
+2020-04-08 11:43:52,778 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:52,779 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:52,779 - INFO - allennlp.training.tensorboard_writer - f1              |     0.171  |     0.026
+2020-04-08 11:43:52,780 - INFO - allennlp.training.tensorboard_writer - acc             |     0.154  |     0.028
+2020-04-08 11:43:52,780 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:52,781 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:52,781 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.396  |       N/A
+2020-04-08 11:43:52,782 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.292  |     0.383
+2020-04-08 11:43:52,782 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:52,783 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:52,783 - INFO - allennlp.training.tensorboard_writer - rec             |     0.194  |     0.024
+2020-04-08 11:43:52,815 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.894885
+2020-04-08 11:43:52,815 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:09
+2020-04-08 11:43:52,815 - INFO - allennlp.training.trainer - Epoch 12/19
+2020-04-08 11:43:52,816 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.428
+2020-04-08 11:43:53,628 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:53,628 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:53,629 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:53,629 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:53,629 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:53,629 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:53,630 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:53,631 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:53,634 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:53,665 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:53,742 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:53,751 - INFO - allennlp.training.tensorboard_writer - df1             |     0.296  |     0.554
+2020-04-08 11:43:53,754 - INFO - allennlp.training.tensorboard_writer - facc            |     0.471  |     0.056
+2020-04-08 11:43:53,755 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:53,758 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:53,760 - INFO - allennlp.training.tensorboard_writer - drec            |     0.571  |     1.000
+2020-04-08 11:43:53,761 - INFO - allennlp.training.tensorboard_writer - loss            |     0.155  |     0.246
+2020-04-08 11:43:53,761 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:53,762 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:53,762 - INFO - allennlp.training.tensorboard_writer - f1              |     0.338  |     0.026
+2020-04-08 11:43:53,764 - INFO - allennlp.training.tensorboard_writer - acc             |     0.324  |     0.028
+2020-04-08 11:43:53,765 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:53,766 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:53,767 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.428  |       N/A
+2020-04-08 11:43:53,767 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.200  |     0.383
+2020-04-08 11:43:53,768 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:53,769 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:53,770 - INFO - allennlp.training.tensorboard_writer - rec             |     0.355  |     0.024
+2020-04-08 11:43:53,793 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.977941
+2020-04-08 11:43:53,794 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:07
+2020-04-08 11:43:53,794 - INFO - allennlp.training.trainer - Epoch 13/19
+2020-04-08 11:43:53,794 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.444
+2020-04-08 11:43:54,503 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:54,504 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:54,504 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:54,504 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:54,505 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:54,505 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:54,505 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:54,505 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:54,506 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:54,538 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:54,601 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:54,602 - INFO - allennlp.training.tensorboard_writer - df1             |     0.444  |     0.554
+2020-04-08 11:43:54,604 - INFO - allennlp.training.tensorboard_writer - facc            |     0.450  |     0.061
+2020-04-08 11:43:54,605 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:54,605 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:54,606 - INFO - allennlp.training.tensorboard_writer - drec            |     0.857  |     1.000
+2020-04-08 11:43:54,606 - INFO - allennlp.training.tensorboard_writer - loss            |     0.151  |     0.252
+2020-04-08 11:43:54,607 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:54,607 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:54,608 - INFO - allennlp.training.tensorboard_writer - f1              |     0.310  |     0.027
+2020-04-08 11:43:54,609 - INFO - allennlp.training.tensorboard_writer - acc             |     0.275  |     0.030
+2020-04-08 11:43:54,609 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:54,609 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:54,610 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.444  |       N/A
+2020-04-08 11:43:54,610 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.300  |     0.383
+2020-04-08 11:43:54,611 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:54,616 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:54,617 - INFO - allennlp.training.tensorboard_writer - rec             |     0.355  |     0.024
+2020-04-08 11:43:54,630 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.836537
+2020-04-08 11:43:54,631 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:06
+2020-04-08 11:43:54,631 - INFO - allennlp.training.trainer - Epoch 14/19
+2020-04-08 11:43:54,631 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.444
+2020-04-08 11:43:55,570 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:55,571 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:55,573 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:55,621 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:55,758 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:55,759 - INFO - allennlp.training.tensorboard_writer - df1             |     0.480  |     0.554
+2020-04-08 11:43:55,759 - INFO - allennlp.training.tensorboard_writer - facc            |     0.512  |     0.074
+2020-04-08 11:43:55,760 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:55,760 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:55,776 - INFO - allennlp.training.tensorboard_writer - drec            |     0.857  |     1.000
+2020-04-08 11:43:55,776 - INFO - allennlp.training.tensorboard_writer - loss            |     0.148  |     0.258
+2020-04-08 11:43:55,777 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:55,777 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:55,778 - INFO - allennlp.training.tensorboard_writer - f1              |     0.351  |     0.021
+2020-04-08 11:43:55,778 - INFO - allennlp.training.tensorboard_writer - acc             |     0.302  |     0.029
+2020-04-08 11:43:55,778 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:55,779 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:55,779 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.444  |       N/A
+2020-04-08 11:43:55,780 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.333  |     0.383
+2020-04-08 11:43:55,780 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:55,780 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:55,781 - INFO - allennlp.training.tensorboard_writer - rec             |     0.419  |     0.016
+2020-04-08 11:43:55,795 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.163544
+2020-04-08 11:43:55,795 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:05
+2020-04-08 11:43:55,795 - INFO - allennlp.training.trainer - Epoch 15/19
+2020-04-08 11:43:55,807 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.444
+2020-04-08 11:43:56,450 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:56,451 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:56,451 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:56,451 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:56,451 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:56,451 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:56,452 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:56,452 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:56,453 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:56,489 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:56,594 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:56,595 - INFO - allennlp.training.tensorboard_writer - df1             |     0.609  |     0.558
+2020-04-08 11:43:56,596 - INFO - allennlp.training.tensorboard_writer - facc            |     0.421  |     0.028
+2020-04-08 11:43:56,597 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:56,598 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:56,599 - INFO - allennlp.training.tensorboard_writer - drec            |     1.000  |     1.000
+2020-04-08 11:43:56,600 - INFO - allennlp.training.tensorboard_writer - loss            |     0.125  |     0.264
+2020-04-08 11:43:56,600 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:56,601 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:56,602 - INFO - allennlp.training.tensorboard_writer - f1              |     0.377  |     0.000
+2020-04-08 11:43:56,602 - INFO - allennlp.training.tensorboard_writer - acc             |     0.342  |     0.000
+2020-04-08 11:43:56,604 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:56,604 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:56,605 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.444  |       N/A
+2020-04-08 11:43:56,606 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.438  |     0.387
+2020-04-08 11:43:56,606 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:56,607 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:56,608 - INFO - allennlp.training.tensorboard_writer - rec             |     0.419  |     0.000
+2020-04-08 11:43:56,627 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.831786
+2020-04-08 11:43:56,628 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:04
+2020-04-08 11:43:56,628 - INFO - allennlp.training.trainer - Epoch 16/19
+2020-04-08 11:43:56,629 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.448
+2020-04-08 11:43:57,502 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:57,503 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:57,505 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:57,545 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:57,665 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:57,671 - INFO - allennlp.training.tensorboard_writer - df1             |     0.476  |     0.552
+2020-04-08 11:43:57,672 - INFO - allennlp.training.tensorboard_writer - facc            |     0.415  |     0.036
+2020-04-08 11:43:57,673 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:57,673 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:57,674 - INFO - allennlp.training.tensorboard_writer - drec            |     0.714  |     0.976
+2020-04-08 11:43:57,674 - INFO - allennlp.training.tensorboard_writer - loss            |     0.131  |     0.269
+2020-04-08 11:43:57,675 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:57,675 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:57,676 - INFO - allennlp.training.tensorboard_writer - f1              |     0.444  |     0.000
+2020-04-08 11:43:57,676 - INFO - allennlp.training.tensorboard_writer - acc             |     0.390  |     0.000
+2020-04-08 11:43:57,676 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:57,677 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:57,677 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.448  |       N/A
+2020-04-08 11:43:57,678 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.357  |     0.385
+2020-04-08 11:43:57,678 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:57,683 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:57,684 - INFO - allennlp.training.tensorboard_writer - rec             |     0.516  |     0.000
+2020-04-08 11:43:57,697 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.068870
+2020-04-08 11:43:57,698 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:03
+2020-04-08 11:43:57,698 - INFO - allennlp.training.trainer - Epoch 17/19
+2020-04-08 11:43:57,698 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.452
+2020-04-08 11:43:58,887 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:58,889 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:58,889 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:58,890 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:58,890 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:58,891 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:58,891 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:58,892 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:58,894 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:43:58,962 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:43:59,114 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:43:59,116 - INFO - allennlp.training.tensorboard_writer - df1             |     0.400  |     0.554
+2020-04-08 11:43:59,117 - INFO - allennlp.training.tensorboard_writer - facc            |     0.392  |     0.033
+2020-04-08 11:43:59,119 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:43:59,122 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:43:59,125 - INFO - allennlp.training.tensorboard_writer - drec            |     0.571  |     1.000
+2020-04-08 11:43:59,127 - INFO - allennlp.training.tensorboard_writer - loss            |     0.142  |     0.274
+2020-04-08 11:43:59,128 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:43:59,129 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:43:59,131 - INFO - allennlp.training.tensorboard_writer - f1              |     0.341  |     0.000
+2020-04-08 11:43:59,132 - INFO - allennlp.training.tensorboard_writer - acc             |     0.275  |     0.000
+2020-04-08 11:43:59,133 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:43:59,134 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:43:59,135 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.452  |       N/A
+2020-04-08 11:43:59,135 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.308  |     0.383
+2020-04-08 11:43:59,136 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:43:59,137 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:43:59,138 - INFO - allennlp.training.tensorboard_writer - rec             |     0.452  |     0.000
+2020-04-08 11:43:59,185 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.486963
+2020-04-08 11:43:59,186 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:02
+2020-04-08 11:43:59,187 - INFO - allennlp.training.trainer - Epoch 18/19
+2020-04-08 11:43:59,188 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.452
+2020-04-08 11:43:59,956 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:43:59,956 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:43:59,957 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:43:59,958 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:44:00,035 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:44:00,186 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:44:00,188 - INFO - allennlp.training.tensorboard_writer - df1             |     0.545  |     0.554
+2020-04-08 11:44:00,189 - INFO - allennlp.training.tensorboard_writer - facc            |     0.556  |     0.030
+2020-04-08 11:44:00,190 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:44:00,190 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:44:00,191 - INFO - allennlp.training.tensorboard_writer - drec            |     0.857  |     1.000
+2020-04-08 11:44:00,192 - INFO - allennlp.training.tensorboard_writer - loss            |     0.133  |     0.279
+2020-04-08 11:44:00,193 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:44:00,194 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:44:00,194 - INFO - allennlp.training.tensorboard_writer - f1              |     0.494  |     0.000
+2020-04-08 11:44:00,195 - INFO - allennlp.training.tensorboard_writer - acc             |     0.389  |     0.000
+2020-04-08 11:44:00,196 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:44:00,197 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:44:00,198 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.452  |       N/A
+2020-04-08 11:44:00,198 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.400  |     0.383
+2020-04-08 11:44:00,199 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:44:00,200 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:44:00,201 - INFO - allennlp.training.tensorboard_writer - rec             |     0.677  |     0.000
+2020-04-08 11:44:00,215 - INFO - allennlp.training.trainer - Epoch duration: 0:00:01.028445
+2020-04-08 11:44:00,216 - INFO - allennlp.training.trainer - Estimated training time remaining: 0:00:01
+2020-04-08 11:44:00,217 - INFO - allennlp.training.trainer - Epoch 19/19
+2020-04-08 11:44:00,217 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 2349.452
+2020-04-08 11:44:00,702 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 7540
+2020-04-08 11:44:00,703 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 8415
+2020-04-08 11:44:00,704 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 7587
+2020-04-08 11:44:00,704 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 8111
+2020-04-08 11:44:00,704 - INFO - allennlp.training.trainer - GPU 4 memory usage MB: 6262
+2020-04-08 11:44:00,705 - INFO - allennlp.training.trainer - GPU 5 memory usage MB: 10395
+2020-04-08 11:44:00,705 - INFO - allennlp.training.trainer - GPU 6 memory usage MB: 10403
+2020-04-08 11:44:00,706 - INFO - allennlp.training.trainer - GPU 7 memory usage MB: 5771
+2020-04-08 11:44:00,708 - INFO - allennlp.training.trainer - Training
+2020-04-08 11:44:00,745 - INFO - allennlp.training.trainer - Validating
+2020-04-08 11:44:00,867 - INFO - allennlp.training.tensorboard_writer -                     Training |  Validation
+2020-04-08 11:44:00,868 - INFO - allennlp.training.tensorboard_writer - df1             |     0.480  |     0.554
+2020-04-08 11:44:00,869 - INFO - allennlp.training.tensorboard_writer - facc            |     0.455  |     0.071
+2020-04-08 11:44:00,876 - INFO - allennlp.training.tensorboard_writer - gpu_0_memory_MB |  7540.000  |       N/A
+2020-04-08 11:44:00,880 - INFO - allennlp.training.tensorboard_writer - gpu_3_memory_MB |  8111.000  |       N/A
+2020-04-08 11:44:00,900 - INFO - allennlp.training.tensorboard_writer - drec            |     0.857  |     1.000
+2020-04-08 11:44:00,910 - INFO - allennlp.training.tensorboard_writer - loss            |     0.127  |     0.282
+2020-04-08 11:44:00,931 - INFO - allennlp.training.tensorboard_writer - gpu_2_memory_MB |  7587.000  |       N/A
+2020-04-08 11:44:00,933 - INFO - allennlp.training.tensorboard_writer - gpu_6_memory_MB |  10403.000  |       N/A
+2020-04-08 11:44:00,934 - INFO - allennlp.training.tensorboard_writer - f1              |     0.442  |     0.000
+2020-04-08 11:44:00,936 - INFO - allennlp.training.tensorboard_writer - acc             |     0.345  |     0.000
+2020-04-08 11:44:00,937 - INFO - allennlp.training.tensorboard_writer - gpu_1_memory_MB |  8415.000  |       N/A
+2020-04-08 11:44:00,979 - INFO - allennlp.training.tensorboard_writer - gpu_5_memory_MB |  10395.000  |       N/A
+2020-04-08 11:44:00,991 - INFO - allennlp.training.tensorboard_writer - cpu_memory_MB   |  2349.452  |       N/A
+2020-04-08 11:44:00,993 - INFO - allennlp.training.tensorboard_writer - dacc            |     0.333  |     0.383
+2020-04-08 11:44:00,999 - INFO - allennlp.training.tensorboard_writer - gpu_4_memory_MB |  6262.000  |       N/A
+2020-04-08 11:44:01,013 - INFO - allennlp.training.tensorboard_writer - gpu_7_memory_MB |  5771.000  |       N/A
+2020-04-08 11:44:01,015 - INFO - allennlp.training.tensorboard_writer - rec             |     0.613  |     0.000
+2020-04-08 11:44:01,032 - INFO - allennlp.training.trainer - Epoch duration: 0:00:00.815467
+2020-04-08 11:44:01,112 - INFO - allennlp.training.checkpointer - loading best weights
+2020-04-08 11:44:01,117 - INFO - allennlp.common.util - Metrics: {
+  "best_epoch": 1,
+  "peak_cpu_memory_MB": 2349.452,
+  "peak_gpu_0_memory_MB": 7540,
+  "peak_gpu_1_memory_MB": 8415,
+  "peak_gpu_2_memory_MB": 7587,
+  "peak_gpu_3_memory_MB": 8111,
+  "peak_gpu_4_memory_MB": 6262,
+  "peak_gpu_5_memory_MB": 10395,
+  "peak_gpu_6_memory_MB": 10403,
+  "peak_gpu_7_memory_MB": 5771,
+  "training_duration": "0:00:22.053515",
+  "training_start_epoch": 0,
+  "training_epochs": 19,
+  "epoch": 19,
+  "training_acc": 0.34545454545454546,
+  "training_rec": 0.6129032258064516,
+  "training_f1": 0.4418604651162791,
+  "training_facc": 0.45454545454545453,
+  "training_dacc": 0.3333333333333333,
+  "training_drec": 0.8571428571428571,
+  "training_df1": 0.48,
+  "training_loss": 0.1270093023777008,
+  "training_cpu_memory_MB": 2349.452,
+  "training_gpu_0_memory_MB": 7540,
+  "training_gpu_1_memory_MB": 8415,
+  "training_gpu_2_memory_MB": 7587,
+  "training_gpu_3_memory_MB": 8111,
+  "training_gpu_4_memory_MB": 6262,
+  "training_gpu_5_memory_MB": 10395,
+  "training_gpu_6_memory_MB": 10403,
+  "training_gpu_7_memory_MB": 5771,
+  "validation_acc": 0.0,
+  "validation_rec": 0.0,
+  "validation_f1": 0,
+  "validation_facc": 0.07142857142857142,
+  "validation_dacc": 0.38317757009345793,
+  "validation_drec": 1.0,
+  "validation_df1": 0.5540540540540541,
+  "validation_loss": 0.2822500839829445,
+  "best_validation_acc": 0.057692307692307696,
+  "best_validation_rec": 0.072,
+  "best_validation_f1": 0.06405693950177936,
+  "best_validation_facc": 0.10897435897435898,
+  "best_validation_dacc": 0.38317757009345793,
+  "best_validation_drec": 1.0,
+  "best_validation_df1": 0.5540540540540541,
+  "best_validation_loss": 0.5905804634094238
+}
+2020-04-08 11:44:01,117 - INFO - allennlp.models.archival - archiving weights and vocabulary to /data3/linshuai/before_mds/allennlp/allennlp/save_gcn/gcn4_mds_cnn2/model.tar.gz

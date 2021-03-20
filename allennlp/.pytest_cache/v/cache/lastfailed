@@ -1,0 +1,11 @@
+{
+  "allennlp/tests/commands/find_learning_rate_test.py::TestFindLearningRate::test_find_learning_rate_multi_gpu": true,
+  "allennlp/tests/commands/train_test.py::TestTrain::test_train_model_distributed": true,
+  "allennlp/tests/data/token_indexers/pretrained_transformer_indexer_test.py::TestPretrainedTransformerIndexer::test_transformers_vocab_sizes": true,
+  "allennlp/tests/models/reading_comprehension/qanet_test.py::QaNetTest::test_multigpu_qanet": true,
+  "allennlp/tests/modules/drop_connect_test.py::DropConnectTest::test_lstm_outputs": true,
+  "allennlp/tests/modules/language_model_heads/gpt2_test.py::TestGpt2LanguageModelHead::test_can_init_and_run": true,
+  "allennlp/tests/training/meta_trainer_test.py::AllenNlpTestCase": true,
+  "allennlp/tests/training/meta_trainer_test.py::ModelTestCase": true,
+  "allennlp/tests/training/meta_trainer_test.py::TestTrainer": true
+}

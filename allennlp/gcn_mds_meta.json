@@ -1,0 +1,90 @@
+local embedding_dim = 300;
+{
+    "dataset_reader": {
+        "type": "mds_reader",
+        "model": "lstm",
+        "tokenizer": {
+            "type":"word",
+            "word_splitter":{
+                "type": "just_spaces"
+            }
+        },
+        "token_indexers": {
+            "tokens": {
+                "type": "single_id"
+             }
+        },
+    },
+//    "train_data_path": "process/data_0305/train.pk",
+//    "validation_data_path": "process/data_0305/valid.pk",
+
+//    "train_data_path": "process/data_1206/train.pk",
+//    "validation_data_path": "process/data_1206/test.pk",
+
+//    "train_data_path": "process/data_0305/train.pk",
+//    "validation_data_path": "process/data_0305/valid.pk",
+
+    "train_data_path": ["data_0319/train_0_0.3.pk", "data_0319/train_exc_0.pk"]
+    "validation_data_path": "process/data_0319/valid_0.pk",
+
+//    "train_data_path": "process/data_0319/train_exc_0.pk",
+//    "validation_data_path": "process/data_0319/valid_exc_0.pk",
+
+//    "train_data_path": "process/data_0305/train_exc_0.pk",
+//    "validation_data_path": "process/data_0305/valid_exc_0.pk",
+    "model": {
+        "type": "symptoms_predictor",
+        "text_field_embedder": {
+            "token_embedders": {
+                "tokens": {
+                    "type": "embedding",
+                    "embedding_dim": embedding_dim,
+                    "pretrained_file": "./mdsdata/embedding.txt",
+                    "trainable": true
+                }
+            }
+        },
+        "utterance_seqencoder": {
+            "type": "lstm",
+            "bidirectional": true,
+            "input_size": embedding_dim,
+            "hidden_size": 300,
+            "num_layers": 1,
+        },
+        "utterance_vecencoder": {
+            "type": "lstm",
+            "bidirectional": true,
+            "input_size": embedding_dim,
+            "hidden_size": 300,
+            "num_layers": 1,
+        },
+//        "regularizer": [
+//            [
+//                ".*",
+//                {
+//                    "type": "l2",
+//                    "alpha": 0.00002
+//                }
+//            ]
+//        ],
+        "dropout": 0.5,
+    },
+    "iterator": {
+        "type": "basic",
+        "batch_size": 16
+    },
+    "trainer": {
+        "type": "metatrainer",
+        "optimizer": {
+            "type": "adam",
+            "lr": 0.001
+        },
+        "validation_metric": "+f1",
+        "num_serialized_models_to_keep": 1,
+        "patience": 5,
+        "num_epochs": 10,
+        "grad_norm": 10.0,
+        "cuda_device": 0,
+//        "no_grad": ["seq_encoder", "vec_encoder"],
+    },
+}
